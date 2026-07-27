@@ -1,1 +1,5 @@
 awesome-design-md/
+node_modules/
+.next/
+.env.local
+.env
