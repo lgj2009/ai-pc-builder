@@ -1,10 +1,16 @@
 import OpenAI from "openai";
 import type { GenerateRequest, GenerateResponse } from "./types";
 
-const openai = new OpenAI({
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: "https://api.deepseek.com",
-});
+let openaiClient: OpenAI | null = null;
+
+function getOpenAI(): OpenAI {
+  if (openaiClient) return openaiClient;
+  openaiClient = new OpenAI({
+    apiKey: process.env.DEEPSEEK_API_KEY,
+    baseURL: "https://api.deepseek.com",
+  });
+  return openaiClient;
+}
 
 const SYSTEM_PROMPT = `你是一个专业PC装机顾问，拥有10年DIY经验。
 
@@ -58,6 +64,7 @@ CPU偏好：${cpuPref}
 
 请生成配置单。`;
 
+  const openai = getOpenAI();
   const response = await openai.chat.completions.create({
     model: "deepseek-v4-flash",
     messages: [
