@@ -23,9 +23,9 @@ const config: Config = {
         success: "#27a644",
       },
       fontFamily: {
-        display: ["Inter", "SF Pro Display", "-apple-system", "system-ui", "sans-serif"],
-        body: ["Inter", "SF Pro Text", "-apple-system", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "ui-monospace", "SF Mono", "Menlo", "monospace"],
+        display: ["var(--font-inter)", "SF Pro Display", "-apple-system", "system-ui", "sans-serif"],
+        body: ["var(--font-inter)", "SF Pro Text", "-apple-system", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SF Mono", "Menlo", "monospace"],
       },
       borderRadius: {
         xs: "4px",
