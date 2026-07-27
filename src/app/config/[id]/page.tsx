@@ -1,5 +1,5 @@
 import { supabaseServer } from "@/lib/supabase/server";
-import { ConfigCard } from "@/components/ConfigCard";
+import { ConfigAccordion } from "@/components/ConfigAccordion";
 import { CopyButton } from "@/components/CopyButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -80,19 +80,13 @@ export default async function ConfigPage({
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-md mb-xl">
-        {parts.map((key) => {
-          const part = data[key];
-          if (!part) return null;
-          return (
-            <ConfigCard
-              key={key}
-              partKey={key}
-              part={part}
-              canAccessFull={config.total_price > 0}
-            />
-          );
-        })}
+      <div className="mb-xl">
+        <ConfigAccordion
+          parts={Object.fromEntries(
+            parts.filter((k) => data[k]).map((k) => [k, data[k]])
+          )}
+          canAccessFull={config.total_price > 0}
+        />
       </div>
 
       <div className="flex gap-md justify-center">
