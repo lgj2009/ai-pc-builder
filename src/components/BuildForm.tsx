@@ -279,14 +279,21 @@ export function BuildForm() {
           <button
             onClick={doGenerate}
             disabled={purpose.length === 0}
-            className="w-full h-12 rounded-md bg-primary text-on-primary font-medium text-sm tracking-tight
-                       hover:bg-primary-hover active:bg-primary-focus
-                       disabled:opacity-40 disabled:cursor-not-allowed
-                       transition-colors duration-150"
+            className="gen-btn"
           >
-            {status && !status.canAccessFull
-              ? "生成配置单（免费版不含价格）"
-              : "生成我的配置单"}
+            <div className="btn-outline" />
+            <span className="btn-text">
+              {(status && !status.canAccessFull
+                ? "生成配置单（免费版不含价格）"
+                : "生成我的配置单"
+              )
+                .split("")
+                .map((ch, i) => (
+                  <span key={i} style={{ "--i": i } as React.CSSProperties}>
+                    {ch === " " ? " " : ch}
+                  </span>
+                ))}
+            </span>
           </button>
         )}
 
