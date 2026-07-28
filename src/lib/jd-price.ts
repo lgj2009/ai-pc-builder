@@ -142,7 +142,7 @@ export async function getJDPrice(
   partName: string,
   category: string,
   partSpec?: string
-): Promise<{ price: number; priceOrig: number; shopLink: string } | null> {
+): Promise<{ price: number; priceOrig: number; shopLink: string; skuName?: string } | null> {
   if (!APP_KEY || !APP_SECRET) {
     console.warn("JD_APP_KEY not set, skipping price lookup");
     return null;
@@ -157,6 +157,7 @@ export async function getJDPrice(
       price: cached.goods.price,
       priceOrig: cached.goods.priceOrig,
       shopLink: cached.goods.materialUrl,
+      skuName: cached.goods.skuName,
     };
   }
 
@@ -169,8 +170,8 @@ export async function getJDPrice(
     (g) => g.price >= range[0] && g.price <= range[1]
   );
 
-  // For storage: prefer results whose name contains the same capacity keyword
-  if (category === "storage" && valid.length > 1) {
+  // For storage & RAM: prefer results whose name contains the same capacity keyword
+  if ((category === "storage" || category === "ram") && valid.length > 1) {
     const capMatch = keyword.match(/\b(\d+)(tb|gb)\b/i);
     if (capMatch) {
       const capStr = capMatch[0].toLowerCase();
@@ -193,7 +194,29 @@ export async function getJDPrice(
     price: best.price,
     priceOrig: best.priceOrig,
     shopLink: best.materialUrl,
+    skuName: best.skuName,  // for debug output
   };
+}
+
+/** Search JD and return multiple candidates for AI to pick from */
+export async function searchJDCandidates(
+  keyword: string,
+  category: string,
+  count: number = 5
+): Promise<{ name: string; price: number; shopLink: string }[]> {
+  const fullKeyword = extractSearchKeyword(keyword, category, "");
+  const goodsList = await searchJD(fullKeyword);
+  if (!goodsList.length) return [];
+
+  const range = PRICE_RANGES[category] || [0, Infinity];
+  return goodsList
+    .filter((g) => g.price >= range[0] && g.price <= range[1])
+    .slice(0, count)
+    .map((g) => ({
+      name: g.skuName,
+      price: g.price,
+      shopLink: g.materialUrl,
+    }));
 }
 
 /** Batch lookup prices for all parts in a config */
@@ -218,7 +241,7 @@ export async function lookupConfigPrices(
       };
       if (Math.abs(jd.price - oldPrice) > 30) {
         corrections.push(
-          `${key}: AI ¥${oldPrice} → 京东 ¥${jd.price}`
+          `${key}: AI ¥${oldPrice} → 京东 ¥${jd.price} [${(jd as { skuName?: string }).skuName?.slice(0, 40) || "?"}]`
         );
       }
     }

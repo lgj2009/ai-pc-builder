@@ -49,6 +49,97 @@ const SYSTEM_PROMPT = `你是一个专业PC装机顾问，拥有10年DIY经验�
 - 13000-20000：旗舰（R9/i9 + RTX 4080/5080+）
 - 20000+：无上限`;
 
+/** Second-pass: AI picks best products from JD results within budget */
+export async function curateWithJD(
+  request: GenerateRequest,
+  initialConfig: GenerateResponse,
+  jdResults: Record<string, { name: string; price: number; shopLink: string }[]>
+): Promise<GenerateResponse> {
+  const purposeText = request.purpose.join("、");
+
+  // Format JD results for AI
+  const jdCatalog = Object.entries(jdResults)
+    .map(([cat, items]) => {
+      const part = initialConfig.config[cat as keyof typeof initialConfig.config];
+      const header = `### ${cat}（AI 初选: ${part.name} ¥${part.price}）`;
+      const products = items
+        .slice(0, 5)
+        .map((p, i) => `  ${i + 1}. ${p.name} — ¥${p.price}`)
+        .join("\n");
+      return header + "\n" + (products || "  无京东结果");
+    })
+    .join("\n\n");
+
+  const curationPrompt = `你是京东装机顾问。用户预算 ¥${request.budget}，用途：${purposeText}。
+
+下面是你之前推荐的配置和京东实时搜索结果。请从京东货里挑出最佳组合。
+
+## 规则
+1. 必须从京东搜索结果中选择产品（不要编造型号）
+2. 总价不超过预算 15%
+3. 如果某个配件的京东价远超预算，可以降档换更便宜的京东产品
+4. 如果京东结果里没有合适的产品，保留原 AI 推荐的型号和价格
+5. shopLink 必须使用京东返回的真实链接
+6. 内存必须双通道
+7. 检查兼容性
+
+## AI 初版配置
+${Object.entries(initialConfig.config).map(([k, v]) => `- ${k}: ${v.name} ¥${v.price}`).join("\n")}
+
+## 京东实时搜索结果
+${jdCatalog}
+
+## 输出格式
+只输出合法 JSON，格式与之前相同：
+{
+  "config": {
+    "cpu": { "name": "京东产品名", "spec": "规格", "price": 京东价格, "shopLink": "京东链接", "notes": "选择理由" },
+    ...
+  },
+  "totalPrice": 总价,
+  "compatibilityNotes": ["兼容说明"]
+}`;
+
+  const openai = getOpenAI();
+  const response = await openai.chat.completions.create(
+    {
+      model: "deepseek-v4-flash",
+      messages: [
+        { role: "system", content: "你是一个专业PC装机顾问，只输出合法JSON。" },
+        { role: "user", content: curationPrompt },
+      ],
+      temperature: 0.3,
+      max_tokens: 4096,
+    },
+    { timeout: 25000 }
+  );
+
+  const content = response.choices[0]?.message?.content;
+  if (!content) throw new Error("Curation returned empty");
+
+  let jsonStr = content.trim();
+  const codeMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (codeMatch) jsonStr = codeMatch[1].trim();
+
+  const parsed = JSON.parse(jsonStr);
+
+  const requiredParts = ["cpu", "motherboard", "gpu", "ram", "storage", "psu", "case", "cooler"] as const;
+  for (const part of requiredParts) {
+    if (!parsed.config?.[part]) {
+      parsed.config[part] = initialConfig.config[part]; // fallback to AI initial
+    }
+    if (!parsed.config[part].shopLink) {
+      parsed.config[part].shopLink = `https://search.jd.com/Search?keyword=${encodeURIComponent(parsed.config[part].name)}`;
+    }
+  }
+
+  return {
+    config: parsed.config,
+    totalPrice: parsed.totalPrice || Object.values(parsed.config).reduce((s: number, p: unknown) => s + ((p as { price: number }).price || 0), 0),
+    compatibilityNotes: parsed.compatibilityNotes || initialConfig.compatibilityNotes,
+  };
+}
+
 export async function generatePCConfig(
   request: GenerateRequest
 ): Promise<GenerateResponse> {

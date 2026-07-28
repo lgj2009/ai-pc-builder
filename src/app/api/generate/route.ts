@@ -1,4 +1,4 @@
-import { generatePCConfig } from "@/lib/deepseek";
+import { generatePCConfig, curateWithJD } from "@/lib/deepseek";
 import {
   ensureDevice,
   checkSubscription,
@@ -6,7 +6,7 @@ import {
 } from "@/lib/subscription";
 import { getRedis } from "@/lib/redis";
 import { applyFallbackPrices } from "@/lib/price-matcher";
-import { lookupConfigPrices } from "@/lib/jd-price";
+import { searchJDCandidates } from "@/lib/jd-price";
 import type { GenerateRequest } from "@/lib/types";
 
 const RATE_LIMIT_WINDOW = 30;
@@ -79,33 +79,40 @@ export async function POST(request: Request) {
 
         const result = await generatePCConfig(body);
 
-        // Apply price corrections: JD API → fallback DB
-        send("status", { phase: "pricing", message: "正在查询京东实时价格..." });
-        let corrections: string[] = [];
+        // Phase 2: Search JD for each part, then AI curates from results
+        send("status", { phase: "pricing", message: "京东比价中..." });
+        let finalResult = result;
         if (process.env.JD_APP_KEY) {
-          const jd = await lookupConfigPrices(
-            result.config as unknown as Record<string, { name: string; price: number; shopLink: string }>
-          );
-          if (jd.corrections.length > 0) {
-            result.config = jd.config as unknown as typeof result.config;
-            corrections = jd.corrections;
+          const jdCatalog: Record<string, { name: string; price: number; shopLink: string }[]> = {};
+          const cats = ["cpu", "motherboard", "gpu", "ram", "storage", "psu", "case", "cooler"];
+          for (const cat of cats) {
+            const part = result.config[cat as keyof typeof result.config];
+            if (!part) continue;
+            const candidates = await searchJDCandidates(part.name, cat, 5);
+            if (candidates.length) {
+              jdCatalog[cat] = candidates;
+            }
+          }
+          if (Object.keys(jdCatalog).length >= 3) {
+            send("status", { phase: "pricing", message: "AI 正从京东挑选最优组合..." });
+            try {
+              finalResult = await curateWithJD(body, result, jdCatalog);
+            } catch (e) {
+              console.error("Curation failed:", e);
+            }
           }
         }
-        // Fallback to local price database if JD not configured or returned nothing
-        if (!corrections.length) {
-          const fb = applyFallbackPrices(result.config);
-          result.config = fb.config;
-          corrections = fb.corrections;
+        if (!process.env.JD_APP_KEY) {
+          const fb = applyFallbackPrices(finalResult.config);
+          finalResult.config = fb.config;
         }
 
-        result.totalPrice = Object.values(result.config).reduce(
+        finalResult.totalPrice = Object.values(finalResult.config).reduce(
           (s, p) => s + (p.price || 0), 0
         );
         send("status", {
           phase: "pricing",
-          message: corrections.length
-            ? `已校准 ${corrections.length} 项价格 (${process.env.JD_APP_KEY ? "京东" : "价格库"})`
-            : "价格校准完成",
+          message: finalResult !== result ? "AI 已从京东挑选最优配置" : "价格校准完成",
         });
 
         send("status", { phase: "done", message: "配置单生成完成" });
@@ -118,9 +125,9 @@ export async function POST(request: Request) {
         const showPrices = status.canAccessFull;
 
         const response = {
-          config: result.config,
-          totalPrice: showPrices ? result.totalPrice : null,
-          compatibilityNotes: result.compatibilityNotes,
+          config: finalResult.config,
+          totalPrice: showPrices ? finalResult.totalPrice : null,
+          compatibilityNotes: finalResult.compatibilityNotes,
           canAccessFull: showPrices,
           freeUsesRemaining: status.isSubscribed
             ? null
