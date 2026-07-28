@@ -5,6 +5,7 @@ import {
   decrementFreeUses,
 } from "@/lib/subscription";
 import { getRedis } from "@/lib/redis";
+import { applyFallbackPrices } from "@/lib/price-matcher";
 import type { GenerateRequest } from "@/lib/types";
 
 const RATE_LIMIT_WINDOW = 30;
@@ -76,6 +77,19 @@ export async function POST(request: Request) {
         send("status", { phase: "generating", message: "正在分析需求..." });
 
         const result = await generatePCConfig(body);
+
+        // Apply price corrections from fallback database
+        const { config: corrected, corrections } = applyFallbackPrices(result.config);
+        result.config = corrected;
+        if (corrections.length > 0) {
+          result.totalPrice = Object.values(corrected).reduce(
+            (s, p) => s + (p.price || 0), 0
+          );
+          send("status", {
+            phase: "pricing",
+            message: `已校准 ${corrections.length} 项价格`,
+          });
+        }
 
         send("status", { phase: "done", message: "配置单生成完成" });
 
