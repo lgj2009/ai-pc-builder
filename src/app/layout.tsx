@@ -16,9 +16,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI 装机顾问 — 智能 DIY 配置单生成",
+  title: "AI 装机顾问",
   description:
-    "输入预算和用途，AI 自动生成高性价比装机配置单。支持游戏、办公、剪辑等场景，免费试用。",
+    "输入预算和用途，AI 自动生成高性价比装机配置单。",
 };
 
 export default function RootLayout({
@@ -27,28 +27,73 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh-CN" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-canvas text-ink font-body antialiased">
-        <nav className="sticky top-0 z-50 h-14 border-b border-hairline bg-canvas/80 backdrop-blur">
-          <div className="max-w-6xl mx-auto h-full flex items-center justify-between px-lg">
+    <html
+      lang="zh-CN"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="bg-canvas text-ink font-body antialiased min-h-screen">
+        <nav className="fixed top-0 inset-x-0 z-50 h-14 border-b border-hairline bg-canvas/80 backdrop-blur-md">
+          <div className="max-w-[1280px] mx-auto h-full flex items-center justify-between px-6">
             <Link
               href="/"
-              className="flex items-center gap-sm font-display text-card-title text-ink hover:text-primary transition-colors"
+              className="flex items-center gap-2.5 font-display text-card-title text-ink tracking-tight hover:text-primary transition-colors"
             >
-              <span className="text-primary text-xl">⬨</span>
-              <span>装机顾问</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                className="text-primary"
+              >
+                <rect
+                  x="2"
+                  y="2"
+                  width="7"
+                  height="7"
+                  rx="1.5"
+                  fill="currentColor"
+                />
+                <rect
+                  x="11"
+                  y="2"
+                  width="7"
+                  height="7"
+                  rx="1.5"
+                  fill="currentColor"
+                  opacity="0.65"
+                />
+                <rect
+                  x="2"
+                  y="11"
+                  width="7"
+                  height="7"
+                  rx="1.5"
+                  fill="currentColor"
+                  opacity="0.65"
+                />
+                <rect
+                  x="11"
+                  y="11"
+                  width="7"
+                  height="7"
+                  rx="1.5"
+                  fill="currentColor"
+                  opacity="0.35"
+                />
+              </svg>
+              <span className="text-ink">装机顾问</span>
             </Link>
-            <div className="flex items-center gap-md">
+            <div className="flex items-center gap-4">
               <Link
                 href="/profile"
-                className="text-sm text-ink-muted hover:text-ink transition-colors"
+                className="text-sm text-ink-subtle hover:text-ink transition-colors"
               >
-                我的
+                我的配置
               </Link>
             </div>
           </div>
         </nav>
-        <main>{children}</main>
+        <main className="pt-14">{children}</main>
       </body>
     </html>
   );

@@ -26,7 +26,7 @@ export default function CinematicPage() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-black">
+    <div className="fixed inset-0 w-screen h-screen overflow-hidden bg-black" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* ====== Background Video ====== */}
       <video
         className="fixed inset-0 w-full h-full object-cover z-0"
