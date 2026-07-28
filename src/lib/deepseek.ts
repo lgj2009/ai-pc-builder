@@ -65,23 +65,30 @@ CPU偏好：${cpuPref}
 请生成配置单。`;
 
   const openai = getOpenAI();
-  const response = await openai.chat.completions.create({
-    model: "deepseek-v4-flash",
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      { role: "user", content: userMessage },
-    ],
-    temperature: 0.7,
-    max_tokens: 4096,
-    response_format: { type: "json_object" },
-  });
+  const response = await openai.chat.completions.create(
+    {
+      model: "deepseek-v4-flash",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: userMessage },
+      ],
+      temperature: 0.7,
+      max_tokens: 4096,
+    },
+    { timeout: 25000 }
+  );
 
   const content = response.choices[0]?.message?.content;
   if (!content) {
     throw new Error("DeepSeek returned empty response");
   }
 
-  const parsed = JSON.parse(content);
+  // Extract JSON — DeepSeek may wrap it in markdown code blocks
+  let jsonStr = content.trim();
+  const codeMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (codeMatch) jsonStr = codeMatch[1].trim();
+
+  const parsed = JSON.parse(jsonStr);
 
   const requiredParts = [
     "cpu", "motherboard", "gpu", "ram", "storage", "psu", "case", "cooler",
