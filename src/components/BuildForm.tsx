@@ -239,23 +239,35 @@ export function BuildForm() {
           <label className="block text-sm font-medium text-ink-muted uppercase tracking-wider mb-4">
             CPU 偏好
           </label>
-          <div className="inline-flex rounded-md border border-hairline overflow-hidden">
+          <div className="flex flex-wrap justify-center mt-2 cpu-pick">
             {[
               { key: "any", label: "不限" },
               { key: "intel", label: "Intel" },
               { key: "amd", label: "AMD" },
-            ].map(({ key, label }) => (
-              <button
-                key={key}
-                onClick={() => setCpuPref(key)}
-                className={`px-5 py-2 text-sm font-medium transition-colors border-r border-hairline last:border-r-0 ${
-                  cpuPref === key
-                    ? "bg-surface-2 text-ink"
-                    : "text-ink-muted hover:text-ink hover:bg-surface-1"
-                }`}
-              >
-                {label}
-              </button>
+            ].map(({ key, label }, i) => (
+              <label key={key}>
+                <input
+                  type="radio"
+                  name="cpu-pref"
+                  value={key}
+                  checked={cpuPref === key}
+                  onChange={() => setCpuPref(key)}
+                  className="sr-only"
+                />
+                <span
+                  className={`block cursor-pointer px-5 py-2 text-sm tracking-wider text-center transition-colors duration-500 select-none
+                    ${i === 0 ? "rounded-l-md" : ""}
+                    ${i === 2 ? "rounded-r-md" : ""}
+                    ${
+                      cpuPref === key
+                        ? "shadow-[0_0_0_0.0625em_#5e6ad2] bg-primary/10 text-primary z-[1]"
+                        : "shadow-[0_0_0_0.0625em_#23252a] bg-surface-1 text-ink-muted hover:text-ink"
+                    }`}
+                  style={{ position: "relative", marginLeft: i > 0 ? "0.0625em" : 0 }}
+                >
+                  {label}
+                </span>
+              </label>
             ))}
           </div>
         </div>

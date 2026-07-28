@@ -288,6 +288,13 @@
 
 .banter-loader__box:nth-child(9) { animation: moveBox-9 4s infinite; }
 
+/* ====== CPU radio pills ====== */
+
+.cpu-pick input[type="radio"]:focus-visible + span {
+  outline: none;
+  box-shadow: 0 0 0 0.0625em #5e6ad2, 0 0 0 3px rgba(94, 106, 210, 0.3);
+}
+
 /* ====== Pattern background ====== */
 
 .pattern-bg {
