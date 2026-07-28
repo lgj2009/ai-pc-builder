@@ -31,6 +31,7 @@ async function fetchGoods(token, category, page = 1) {
     category: String(category),
     page: String(page),
     sort: "popular",
+    limit: "100",
   });
   const res = await fetch(`${BASE}/api/get_goods.php`, {
     method: "POST",
