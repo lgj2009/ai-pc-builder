@@ -10,6 +10,29 @@ interface FallbackPart {
 
 const parts = (fallbackPrices as { parts: FallbackPart[] }).parts;
 
+/** Extract capacity in GB from text (RAM or storage) */
+function extractCapacity(name: string, spec: string): number | null {
+  const text = (name + " " + spec).toLowerCase();
+  // TB → GB conversion
+  const tbMatch = text.match(/(\d+)\s*tb/i);
+  if (tbMatch) return parseInt(tbMatch[1]) * 1024;
+  // GB
+  const gbMatch = text.match(/(\d+)\s*gb/i);
+  if (gbMatch) return parseInt(gbMatch[1]);
+  // "1T" format
+  const tMatch = text.match(/(\d+)\s*t\b/i);
+  if (tMatch) return parseInt(tMatch[1]) * 1024;
+  return null;
+}
+
+/** Check if storage is SSD (not HDD) */
+function isSSD(name: string, spec: string): boolean {
+  const text = (name + " " + spec).toLowerCase();
+  if (text.includes("机械") || text.includes("5400转") || text.includes("7200转")) return false;
+  return text.includes("ssd") || text.includes("固态") || text.includes("nvme") ||
+         text.includes("m.2") || text.includes("m2") || text.includes("读速");
+}
+
 /** Extract model keywords from a product name */
 function tokenize(name: string): string[] {
   // Normalize: spaces, split camelCase and Chinese-English boundaries
@@ -47,14 +70,33 @@ function tokensMatch(a: string, b: string): boolean {
 }
 
 /** Match a part name against the fallback price database */
-function findPrice(name: string, category: string): number | null {
+function findPrice(name: string, category: string, spec: string, aiPrice: number): number | null {
   const tokens = tokenize(name);
   if (tokens.length === 0) return null;
+
+  // Extract capacity for RAM/storage matching
+  const aiCap = extractCapacity(name, spec);
+  const aiIsSSD = category === "storage" ? isSSD(name, spec) : null;
 
   let bestMatch: { price: number; score: number } | null = null;
 
   for (const p of parts) {
     if (p.category !== category) continue;
+
+    // Capacity filter for RAM/storage
+    if (aiCap && (category === "ram" || category === "storage")) {
+      const dbCap = extractCapacity(p.name, p.spec);
+      if (dbCap && aiCap > 0) {
+        const ratio = Math.max(aiCap, dbCap) / Math.min(aiCap, dbCap);
+        if (ratio > 2) continue; // Skip if capacity differs by >2x
+      }
+    }
+
+    // SSD/HDD filter for storage
+    if (category === "storage" && aiIsSSD !== null) {
+      const dbIsSSD = isSSD(p.name, p.spec);
+      if (dbIsSSD !== aiIsSSD) continue; // Don't match SSD with HDD
+    }
 
     const pTokens = tokenize(p.name);
 
@@ -126,11 +168,11 @@ export function applyFallbackPrices(config: PCConfig): {
   };
 
   for (const [key, cat] of Object.entries(categories)) {
-    const part = (config as unknown as Record<string, { name: string; price: number }>)[key];
+    const part = (config as unknown as Record<string, { name: string; price: number; spec: string }>)[key];
     if (!part) continue;
 
     const aiPrice = part.price;
-    const matched = findPrice(part.name, cat);
+    const matched = findPrice(part.name, cat, part.spec || "", aiPrice);
 
     if (matched && Math.abs(matched - aiPrice) > 30) {
       corrections.push(
