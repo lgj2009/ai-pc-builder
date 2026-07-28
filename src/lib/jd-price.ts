@@ -2,10 +2,35 @@
 // https://union.jd.com/ → 注册 → 获取 app_key / app_secret
 
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
+
+let skuDB: { parts: Record<string, Record<string, number>> } | null = null;
+
+function getSkuDB() {
+  if (!skuDB) {
+    const dbPath = path.join(process.cwd(), "sku-database.json");
+    skuDB = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
+  }
+  return skuDB!;
+}
 
 const API_URL = "https://router.jd.com/api";
 const APP_KEY = process.env.JD_APP_KEY || "";
 const APP_SECRET = process.env.JD_APP_SECRET || "";
+
+/** Look up a part in the SKU database, returns SKU ID if found */
+function findSkuId(name: string, category: string): number | null {
+  const catParts = getSkuDB().parts[category];
+  if (!catParts) return null;
+  // Match: check if AI name contains DB key or vice versa
+  const cleanName = name.toLowerCase().replace(/\s+/g, "");
+  for (const [key, sku] of Object.entries(catParts)) {
+    const cleanKey = key.toLowerCase().replace(/\s+/g, "");
+    if (cleanName.includes(cleanKey) || cleanKey.includes(cleanName)) return sku;
+  }
+  return null;
+}
 
 interface JDGoods {
   skuId: number;
@@ -32,6 +57,53 @@ function sign(params: Record<string, string>): string {
     .update(APP_SECRET + sorted + APP_SECRET)
     .digest("hex")
     .toUpperCase();
+}
+
+/** Look up a specific SKU by ID — 100% accurate price */
+async function searchJDSku(skuIds: number[]): Promise<JDGoods[]> {
+  const paramJson = JSON.stringify({
+    skuIds,
+  });
+  const sysParams: Record<string, string> = {
+    method: "jd.union.open.goods.promotiongoodsinfo.query",
+    app_key: APP_KEY,
+    timestamp: (() => {
+      const d = new Date();
+      const pad = (n: number) => String(n).padStart(2, "0");
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    })(),
+    format: "json",
+    v: "1.0",
+    sign_method: "md5",
+    param_json: paramJson,
+  };
+  sysParams.sign = sign(sysParams);
+
+  const query = new URLSearchParams(sysParams).toString();
+  const res = await fetch(`${API_URL}?${query}`);
+  const data = await res.json();
+
+  if (data.error_response) {
+    console.error("JD SKU error:", JSON.stringify(data.error_response));
+    return [];
+  }
+
+  const resultStr = data?.jd_union_open_goods_promotiongoodsinfo_query_response?.result;
+  if (!resultStr) return [];
+  const parsed = JSON.parse(resultStr);
+  const goodsList: any[] = parsed?.data || [];
+  return goodsList.map((g: any) => ({
+    skuId: g.skuId,
+    skuName: g.skuName || "",
+    price: g.unitPrice || g.priceInfo?.price || 0,
+    priceOrig: g.priceInfo?.price || 0,
+    materialUrl: g.materialUrl || `https://item.jd.com/${g.skuId}.html`,
+    imageUrl: g.imageInfo?.imageList?.[0]?.url || "",
+    shopName: g.shopInfo?.shopName || "",
+    inOrderCount30Days: g.inOrderCount30Days || 0,
+    comments: g.comments || 0,
+    goodCommentsShare: g.goodCommentsShare || 0,
+  }));
 }
 
 /** Search JD goods by keyword, return all valid matches */
@@ -202,21 +274,42 @@ export async function getJDPrice(
 export async function searchJDCandidates(
   keyword: string,
   category: string,
-  count: number = 5
-): Promise<{ name: string; price: number; shopLink: string }[]> {
+  count: number = 3
+): Promise<{ name: string; price: number; shopLink: string; source: "sku" | "keyword" }[]> {
+  // Try SKU database first — 100% accurate
+  const skuId = findSkuId(keyword, category);
+  if (skuId) {
+    console.log(`[JD] SKU hit: "${keyword}" → ${skuId}`);
+    const skuResults = await searchJDSku([skuId]);
+    if (skuResults.length > 0) {
+      return skuResults.slice(0, count).map((g) => ({
+        name: g.skuName,
+        price: g.price,
+        shopLink: g.materialUrl,
+        source: "sku" as const,
+      }));
+    }
+    console.log(`[JD] SKU ${skuId} returned no results`);
+  }
+
+  // Fallback to keyword search
   const fullKeyword = extractSearchKeyword(keyword, category, "");
+  console.log(`[JD] Keyword search: "${fullKeyword}"`);
   const goodsList = await searchJD(fullKeyword);
-  if (!goodsList.length) return [];
+  if (!goodsList.length) {
+    console.log(`[JD] No results for "${fullKeyword}"`);
+    return [];
+  }
 
   const range = PRICE_RANGES[category] || [0, Infinity];
-  return goodsList
-    .filter((g) => g.price >= range[0] && g.price <= range[1])
-    .slice(0, count)
-    .map((g) => ({
-      name: g.skuName,
-      price: g.price,
-      shopLink: g.materialUrl,
-    }));
+  const filtered = goodsList.filter((g) => g.price >= range[0] && g.price <= range[1]);
+  console.log(`[JD] ${goodsList.length} results, ${filtered.length} in range ¥${range[0]}-${range[1]}`);
+  return filtered.slice(0, count).map((g) => ({
+    name: g.skuName,
+    price: g.price,
+    shopLink: g.materialUrl,
+    source: "keyword" as const,
+  }));
 }
 
 /** Batch lookup prices for all parts in a config */

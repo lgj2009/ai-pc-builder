@@ -83,7 +83,7 @@ export async function POST(request: Request) {
         send("status", { phase: "pricing", message: "京东比价中..." });
         if (process.env.JD_APP_KEY) {
           const cats = ["cpu", "motherboard", "gpu", "ram", "storage", "psu", "case", "cooler"];
-          let replaced = 0;
+          let replaced = 0; let skuHits = 0;
           for (const cat of cats) {
             const part = result.config[cat as keyof typeof result.config];
             if (!part) continue;
@@ -92,15 +92,25 @@ export async function POST(request: Request) {
               const best = candidates[0];
               part.price = best.price;
               part.shopLink = best.shopLink;
+              if (best.source === "sku") skuHits++;
               replaced++;
             }
           }
           result.totalPrice = Object.values(result.config).reduce((s, p) => s + (p.price || 0), 0);
-          send("status", { phase: "pricing", message: `京东校准 ${replaced}/8 项价格` });
+          // If JD failed (< 3 items calibrated), fall back to local DB
+          if (replaced < 3) {
+            const fb = applyFallbackPrices(result.config);
+            result.config = fb.config;
+            result.totalPrice = Object.values(result.config).reduce((s, p) => s + (p.price || 0), 0);
+            send("status", { phase: "pricing", message: `京东异常，使用本地库校准 ${fb.corrections.length} 项` });
+          } else {
+            send("status", { phase: "pricing", message: `京东校准 ${replaced}/8 项 (${skuHits} SKU精确 + ${replaced - skuHits} 搜索)` });
+          }
         } else {
           const fb = applyFallbackPrices(result.config);
           result.config = fb.config;
           result.totalPrice = Object.values(result.config).reduce((s, p) => s + (p.price || 0), 0);
+          send("status", { phase: "pricing", message: `本地库校准 ${fb.corrections.length} 项` });
         }
 
         send("status", { phase: "done", message: "配置单生成完成" });
