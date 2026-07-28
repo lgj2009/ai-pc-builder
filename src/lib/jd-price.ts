@@ -49,7 +49,11 @@ async function searchJD(keyword: string): Promise<JDGoods | null> {
   const sysParams: Record<string, string> = {
     method: "jd.union.open.goods.query",
     app_key: APP_KEY,
-    timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, "+0800"),
+    timestamp: (() => {
+      const d = new Date();
+      const pad = (n: number) => String(n).padStart(2, "0");
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    })(),
     format: "json",
     v: "1.0",
     sign_method: "md5",
@@ -94,16 +98,35 @@ const cache = new Map<
 >();
 const TTL = 5 * 60 * 1000;
 
+/** Extract clean search keyword for JD API */
+function extractSearchKeyword(name: string, spec: string): string {
+  // Remove noise: brackets, CL timing, RPM speeds etc
+  let cleaned = (name + " " + spec)
+    .replace(/[\(\)（）]/g, " ")
+    .replace(/\bC\d{2}\b/gi, "")       // CL36, etc
+    .replace(/\b\d+rpm\b/gi, "")       // 5400rpm
+    .replace(/\b\d+x\d+\b/g, "")       // 16G×2 etc
+    .replace(/\bH\.D\.T\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // Take first 30 chars (brand + key specs)
+  return cleaned.slice(0, 30);
+}
+
 /** Get JD price for a part, cached 5 minutes */
 export async function getJDPrice(
-  partName: string
+  partName: string,
+  partSpec?: string
 ): Promise<{ price: number; priceOrig: number; shopLink: string } | null> {
   if (!APP_KEY || !APP_SECRET) {
     console.warn("JD_APP_KEY not set, skipping price lookup");
     return null;
   }
 
-  const cacheKey = partName.toLowerCase().trim();
+  const keyword = extractSearchKeyword(partName, partSpec || "");
+
+  const cacheKey = keyword.toLowerCase().trim();
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.ts < TTL) {
     return {
@@ -113,7 +136,7 @@ export async function getJDPrice(
     };
   }
 
-  const goods = await searchJD(partName);
+  const goods = await searchJD(keyword);
   if (!goods) return null;
 
   cache.set(cacheKey, { goods, ts: Date.now() });
@@ -126,7 +149,7 @@ export async function getJDPrice(
 
 /** Batch lookup prices for all parts in a config */
 export async function lookupConfigPrices(
-  config: Record<string, { name: string; price: number; priceOrig?: number; shopLink: string }>
+  config: Record<string, { name: string; price: number; priceOrig?: number; shopLink: string; spec?: string }>
 ): Promise<{
   config: Record<string, { name: string; price: number; priceOrig?: number; shopLink: string }>;
   corrections: string[];
@@ -135,7 +158,7 @@ export async function lookupConfigPrices(
   const updated = { ...config };
 
   for (const [key, part] of Object.entries(config)) {
-    const jd = await getJDPrice(part.name);
+    const jd = await getJDPrice(part.name, (part as { spec?: string }).spec);
     if (jd && jd.price > 0) {
       const oldPrice = part.price;
       updated[key] = {
