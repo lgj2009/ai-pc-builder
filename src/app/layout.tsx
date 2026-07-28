@@ -31,7 +31,29 @@ export default function RootLayout({
       lang="zh-CN"
       className={`${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-canvas text-ink font-body antialiased min-h-screen">
+      <body className="bg-canvas text-ink font-body antialiased min-h-screen relative">
+        {/* Pattern background */}
+        <div className="fixed inset-0 z-0 pointer-events-none opacity-30">
+          <div className="pattern-bg absolute inset-0" />
+          <svg
+            className="absolute"
+            width="200%"
+            height="200%"
+            style={{ left: "-30%", top: "-20%", opacity: 0.7, animation: "cubeMove 18s linear infinite alternate" }}
+            viewBox="0 0 800 600"
+          >
+            <defs>
+              <pattern id="cubes" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="35" height="35" rx="3" fill="none" stroke="#5e6ad2" strokeWidth="0.4" opacity="0.3" />
+                <rect x="5" y="5" width="25" height="25" rx="2" fill="#5e6ad2" opacity="0.04" />
+                <rect x="40" y="40" width="35" height="35" rx="3" fill="none" stroke="#5e6ad2" strokeWidth="0.4" opacity="0.3" />
+                <rect x="45" y="45" width="25" height="25" rx="2" fill="#5e6ad2" opacity="0.04" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#cubes)" />
+          </svg>
+        </div>
+
         <nav className="fixed top-0 inset-x-0 z-50 h-14 border-b border-hairline bg-canvas/80 backdrop-blur-md">
           <div className="max-w-[1280px] mx-auto h-full flex items-center justify-between px-6">
             <Link
