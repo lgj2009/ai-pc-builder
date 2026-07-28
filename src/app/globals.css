@@ -82,3 +82,19 @@
   mask-composite: exclude;
   pointer-events: none;
 }
+
+/* ====== Card hover blur effect ====== */
+
+.card-group:hover .card-item:not(:hover) {
+  filter: blur(10px);
+  transform: scale(0.9);
+}
+
+.card-item {
+  transition: all 400ms;
+}
+
+.card-item:hover {
+  transform: scale(1.1) !important;
+  filter: none !important;
+}

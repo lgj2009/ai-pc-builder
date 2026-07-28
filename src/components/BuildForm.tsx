@@ -202,7 +202,7 @@ export function BuildForm() {
           <label className="block text-sm font-medium text-ink-muted uppercase tracking-wider mb-4">
             用途
           </label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 card-group">
             {PURPOSES.map(({ key, label, emoji, desc }) => {
               const active = purpose.includes(key);
               return (
@@ -213,7 +213,7 @@ export function BuildForm() {
                       p.includes(key) ? p.filter((x) => x !== key) : [...p, key]
                     )
                   }
-                  className={`text-left p-4 rounded-lg border transition-all duration-150 ${
+                  className={`card-item text-left p-4 rounded-lg border ${
                     active
                       ? "border-primary/40 bg-primary/[0.06]"
                       : "border-hairline bg-surface-1 hover:border-hairline-strong"
