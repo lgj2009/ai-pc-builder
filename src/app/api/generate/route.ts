@@ -1,4 +1,4 @@
-import { generatePCConfig, curateWithJD } from "@/lib/deepseek";
+import { generatePCConfig } from "@/lib/deepseek";
 import {
   ensureDevice,
   checkSubscription,
@@ -79,41 +79,29 @@ export async function POST(request: Request) {
 
         const result = await generatePCConfig(body);
 
-        // Phase 2: Search JD for each part, then AI curates from results
+        // Apply JD prices: search each part, replace price + link
         send("status", { phase: "pricing", message: "京东比价中..." });
-        let finalResult = result;
         if (process.env.JD_APP_KEY) {
-          const jdCatalog: Record<string, { name: string; price: number; shopLink: string }[]> = {};
           const cats = ["cpu", "motherboard", "gpu", "ram", "storage", "psu", "case", "cooler"];
+          let replaced = 0;
           for (const cat of cats) {
             const part = result.config[cat as keyof typeof result.config];
             if (!part) continue;
-            const candidates = await searchJDCandidates(part.name, cat, 5);
-            if (candidates.length) {
-              jdCatalog[cat] = candidates;
+            const candidates = await searchJDCandidates(part.name, cat, 3);
+            if (candidates.length > 0) {
+              const best = candidates[0];
+              part.price = best.price;
+              part.shopLink = best.shopLink;
+              replaced++;
             }
           }
-          if (Object.keys(jdCatalog).length >= 3) {
-            send("status", { phase: "pricing", message: "AI 正从京东挑选最优组合..." });
-            try {
-              finalResult = await curateWithJD(body, result, jdCatalog);
-            } catch (e) {
-              console.error("Curation failed:", e);
-            }
-          }
+          result.totalPrice = Object.values(result.config).reduce((s, p) => s + (p.price || 0), 0);
+          send("status", { phase: "pricing", message: `京东校准 ${replaced}/8 项价格` });
+        } else {
+          const fb = applyFallbackPrices(result.config);
+          result.config = fb.config;
+          result.totalPrice = Object.values(result.config).reduce((s, p) => s + (p.price || 0), 0);
         }
-        if (!process.env.JD_APP_KEY) {
-          const fb = applyFallbackPrices(finalResult.config);
-          finalResult.config = fb.config;
-        }
-
-        finalResult.totalPrice = Object.values(finalResult.config).reduce(
-          (s, p) => s + (p.price || 0), 0
-        );
-        send("status", {
-          phase: "pricing",
-          message: finalResult !== result ? "AI 已从京东挑选最优配置" : "价格校准完成",
-        });
 
         send("status", { phase: "done", message: "配置单生成完成" });
 
@@ -125,9 +113,9 @@ export async function POST(request: Request) {
         const showPrices = status.canAccessFull;
 
         const response = {
-          config: finalResult.config,
-          totalPrice: showPrices ? finalResult.totalPrice : null,
-          compatibilityNotes: finalResult.compatibilityNotes,
+          config: result.config,
+          totalPrice: showPrices ? result.totalPrice : null,
+          compatibilityNotes: result.compatibilityNotes,
           canAccessFull: showPrices,
           freeUsesRemaining: status.isSubscribed
             ? null
