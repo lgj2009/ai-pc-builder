@@ -83,7 +83,7 @@ export function RedeemInput({
             <Button
               variant="primary"
               onClick={handleRedeem}
-              disabled={loading || code.length < 18}
+              disabled={loading || code.length < 15}
               className="shrink-0 rounded-md"
             >
               {loading ? "激活中..." : "激活"}
