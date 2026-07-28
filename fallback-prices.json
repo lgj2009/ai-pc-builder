@@ -1,44 +1,846 @@
 {
   "lastUpdated": "2026-07-28",
-  "source": "京东/天猫综合参考价，仅供参考",
+  "source": "diyzp.cn 实时爬取，仅供参考",
   "parts": [
-    {"category":"cpu","name":"Intel Core i5-14600KF","spec":"14核20线程 / LGA1700 / 盒装","price":1899},
-    {"category":"cpu","name":"Intel Core i7-14700KF","spec":"20核28线程 / LGA1700 / 盒装","price":2699},
-    {"category":"cpu","name":"Intel Core i9-14900KF","spec":"24核32线程 / LGA1700 / 盒装","price":4199},
-    {"category":"cpu","name":"AMD Ryzen 5 7500F","spec":"6核12线程 / AM5 / 盒装","price":1050},
-    {"category":"cpu","name":"AMD Ryzen 7 7800X3D","spec":"8核16线程 / AM5 / 3D V-Cache / 盒装","price":2599},
-    {"category":"cpu","name":"AMD Ryzen 9 7950X3D","spec":"16核32线程 / AM5 / 3D V-Cache / 盒装","price":4299},
-    {"category":"motherboard","name":"微星 MAG B760M MORTAR WIFI II","spec":"LGA1700 / DDR5 / M-ATX","price":1199},
-    {"category":"motherboard","name":"华硕 TUF GAMING B760M-PLUS WIFI II","spec":"LGA1700 / DDR5 / M-ATX","price":1299},
-    {"category":"motherboard","name":"技嘉 B650M AORUS ELITE AX","spec":"AM5 / DDR5 / M-ATX","price":1199},
-    {"category":"motherboard","name":"微星 MAG B650M MORTAR WIFI","spec":"AM5 / DDR5 / M-ATX","price":1299},
-    {"category":"gpu","name":"NVIDIA GeForce RTX 4060","spec":"8GB GDDR6","price":2299},
-    {"category":"gpu","name":"NVIDIA GeForce RTX 4060 Ti","spec":"8GB GDDR6","price":3199},
-    {"category":"gpu","name":"NVIDIA GeForce RTX 4070 Super","spec":"12GB GDDR6X","price":4599},
-    {"category":"gpu","name":"NVIDIA GeForce RTX 4070 Ti Super","spec":"16GB GDDR6X","price":6199},
-    {"category":"gpu","name":"NVIDIA GeForce RTX 4080 Super","spec":"16GB GDDR6X","price":8199},
-    {"category":"gpu","name":"NVIDIA GeForce RTX 5080","spec":"16GB GDDR7","price":8999},
-    {"category":"gpu","name":"AMD Radeon RX 7800 XT","spec":"16GB GDDR6","price":3599},
-    {"category":"gpu","name":"AMD Radeon RX 7900 GRE","spec":"16GB GDDR6","price":4299},
-    {"category":"ram","name":"金士顿 FURY Beast DDR5 6000 32GB(16G×2)","spec":"DDR5 6000MHz / CL36 / 32GB套条","price":799},
-    {"category":"ram","name":"芝奇 Trident Z5 DDR5 6400 32GB(16G×2)","spec":"DDR5 6400MHz / CL32 / 32GB套条","price":899},
-    {"category":"ram","name":"阿斯加特 女武神 DDR5 6800 32GB(16G×2)","spec":"DDR5 6800MHz / CL34 / 32GB套条","price":999},
-    {"category":"storage","name":"三星 990 EVO Plus 1TB","spec":"NVMe PCIe 4.0 / 读取7150MB/s","price":599},
-    {"category":"storage","name":"西数 SN850X 1TB","spec":"NVMe PCIe 4.0 / 读取7300MB/s","price":629},
-    {"category":"storage","name":"三星 990 PRO 2TB","spec":"NVMe PCIe 4.0 / 读取7450MB/s","price":1299},
-    {"category":"storage","name":"致态 TiPlus7100 2TB","spec":"NVMe PCIe 4.0 / 读取7000MB/s / 国产","price":899},
-    {"category":"psu","name":"海韵 FOCUS GX-750","spec":"750W / 80PLUS金牌 / 全模组","price":749},
-    {"category":"psu","name":"振华 Leadex III 850W","spec":"850W / 80PLUS金牌 / 全模组","price":849},
-    {"category":"psu","name":"安钛克 NE750W","spec":"750W / 80PLUS金牌 / 半模组","price":529},
-    {"category":"psu","name":"长城 Fire 850W","spec":"850W / 80PLUS金牌 / 全模组","price":649},
-    {"category":"case","name":"联力 LANCOOL 216","spec":"中塔ATX / 标配2×160mm风扇","price":499},
-    {"category":"case","name":"追风者 P600S","spec":"中塔ATX / 静音","price":599},
-    {"category":"case","name":"先马 朱雀Air","spec":"中塔ATX / 双360冷排位 / 高性价比","price":299},
-    {"category":"case","name":"九州风神 CH560","spec":"中塔ATX / 标配4把风扇 / 数显","price":469},
-    {"category":"case","name":"恩杰 H7 Flow","spec":"中塔ATX / 高风道设计","price":699},
-    {"category":"cooler","name":"利民 PA120 SE","spec":"双塔风冷 / 6热管 / LGA1700+AM5","price":129},
-    {"category":"cooler","name":"九州风神 AK620","spec":"双塔风冷 / 6热管 / 静音","price":259},
-    {"category":"cooler","name":"瓦尔基里 A360","spec":"360一体水冷 / ARGB","price":369},
-    {"category":"cooler","name":"海盗船 H150i ELITE","spec":"360一体水冷 / iCUE / 旗舰级","price":899}
+    {
+      "category": "cpu",
+      "name": "英特尔i5-13600KF 13代14核20线程CPU",
+      "spec": "INTEL LGA1700 / 英特尔（Intel） / 14核 / 酷睿i5 / 125W / 24MB / 5.1GHz / 2.6GHz / 20MB / i5-13600KF / intel / 14核 / 永劫无间 守望先锋 英雄联盟 / 电竞娱乐 发烧超频 / Intel 13代 / 不带风扇 / 20线程 / 不支持核显",
+      "price": 1989
+    },
+    {
+      "category": "cpu",
+      "name": "英特尔i9-14900K 14代24核32线程CPU",
+      "spec": "Z690 Z790 / INTEL LGA1700 / 英特尔(Intel) / 24核 / 酷睿i9 / 125W / 36MB / 6GHz / 2.4GHz / 32MB / i9-14900K / intel / 24核 / 永劫无间 英雄联盟 使命召唤11 / 发烧超频 电竞娱乐 设计/影像 / Intel 14代 / 不带风扇 / 32线程 / 支持",
+      "price": 3589
+    },
+    {
+      "category": "cpu",
+      "name": "AMD Ryzen7 9800X3D",
+      "spec": "AMD AM5 / AMD / 8核 / 锐龙R7 / 120W / 96MB / 5.2GHz / 4.7GHz / 8MB / AMD锐龙7 9800X3D / AMD / 8核 / 黑神话悟空 魔兽世界 英雄联盟 / 发烧超频 设计/影像 电竞娱乐 / AMD 9000系列 / 不带风扇 / 16线程 / 支持核显",
+      "price": 3199
+    },
+    {
+      "category": "cpu",
+      "name": "AMD Ryzen9 9950X3D",
+      "spec": "AMD AM5 / AMD / 16核 / 锐龙R9 / 170W / 128MB / 5.7GHz / 4.3GHz / 16MB / AMD 锐龙9 9950X3D / AMD / 16核 / 黑神话悟空 魔兽世界 英雄联盟 / 发烧超频 设计/影像 电竞娱乐 / AMD 9000系列 / 不带风扇 / 32线程 / 支持核显",
+      "price": 4841
+    },
+    {
+      "category": "cpu",
+      "name": "英特尔12代i5-12400F 6核12线程",
+      "spec": "Z690 B660 / INTEL LGA1700 / 英特尔(Intel) / 6 / 酷睿i5 / 65W / 其他 / 4.4GHz / 其他 / 其他 / i5-12400F / intel / 6 / 永劫无间 守望先锋 英雄联盟 / 电竞娱乐 日常办公 / Intel 12代 / 带风扇 / 12线程 / 不支持核显",
+      "price": 959
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i5 14600KF",
+      "spec": "Z790 Z690 B760 / INTEL LGA1700 / 英特尔(Intel) / 14核 / 酷睿i5 / 125W / 24MB / 5.3GHz / 其他 / 20MB / i5-14600KF / intel / 14核 / 永劫无间 英雄联盟 使命召唤11 / 电竞娱乐 发烧超频 日常办公 / Intel 14代 / 不带风扇 / 20线程 / 不支持核显",
+      "price": 1669
+    },
+    {
+      "category": "cpu",
+      "name": "AMD Ryzen7 7800X3D",
+      "spec": "AMD AM5 / AMD / 8核 / 锐龙 R7 / 120W / 96MB / 5GHz / 4.2GHz / 8MB / 锐龙7 7800X3D / AMD / 8核 / 永劫无间 最终幻想13 英雄联盟 / 设计/影像 电竞娱乐 发烧超频 / AMD 7000系列 / 不带风扇 / 16线程 / 支持核显",
+      "price": 2525
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i5 12600KF",
+      "spec": "B660 Z690 B760 / INTEL LGA1700 / 英特尔(Intel) / 10核 / 酷睿i5 / 150W / 20MB / 4.9GHz / 2.8GHz / 9.5MB / i5-12600KF / intel / 10核 / 永劫无间 守望先锋 英雄联盟 / 电竞娱乐 日常办公 / Intel 12代 / 不带风扇 / 16线程 / 不支持核显",
+      "price": 1148
+    },
+    {
+      "category": "cpu",
+      "name": "AMD Ryzen5 5600GT",
+      "spec": "AMD AM4 / AMD / 6核 / 锐龙R5 / 65W / 16MB / 4.6GHz / 3.6GHz / 3MB / 锐龙5 5600GT / AMD / 6核 / 英雄联盟 / 设计/影像 电竞娱乐 发烧超频 / AMD 5000系列 / 带风扇 / 12线程 / 支持核显",
+      "price": 1069
+    },
+    {
+      "category": "cpu",
+      "name": "AMD Ryzen5 5600X",
+      "spec": "AMD / 6核 / 锐龙 R5 / 32MB / R5 5600X【全新散片】 / AMD / 6核 / 日常办公、电竞娱乐 / AMD 5000系列 / 12线程",
+      "price": 908
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i3 13100F",
+      "spec": "INTEL LGA1700 / 英特尔 (Intel) / 4核 / 酷睿i5 / 65W / 12MB / 3.4Ghz / i3-13100F / intel / 4核 / 发烧超频 日常办公 电竞娱乐 设计/影像 工作站/服务器 其他 / Intel 14代 / 不带风扇 / 8线程 / 不支持核显",
+      "price": 839
+    },
+    {
+      "category": "cpu",
+      "name": "Inte Core Ultra 9 285",
+      "spec": "LGA1851 / INTEL LGA1851 / 英特尔（Intel） / 24核 / 酷睿Ultra 9 / 65W / 36MB / 5.6Ghz / 1.9Ghz / 英特尔酷睿Ultra 9 285 / intel / 24核 / 黑神话悟空 无畏契约 三角洲行动 / 台式机 / Intel 酷睿Ultra 第二代 / 带风扇 / 24线程 / 支持核显",
+      "price": 4367
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core Ultra 7 265KF",
+      "spec": "INTEL LGA1851 / 英特尔（Intel） / 20核 / 酷睿Ultra 7 / 125W / 30MB / 5.5GHz / 其他 / U7-265KF / intel / 20核 / 黑神话悟空 无畏契约 三角洲行动 / 游戏电竞办公 / Intel酷睿Ultra第二代 / 不带风扇 / 20线程 / 不支持核显",
+      "price": 1809
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i5 11600KF",
+      "spec": "英特尔（Intel） / 6核 / 酷睿i9 / 12MB / intel / 6核 / 发烧超频 日常办公 电竞娱乐 设计/影像 其他 / 11/10代 / 12线程",
+      "price": 758
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i5 13400F",
+      "spec": "B660 B760 H610 / INTEL LGA1700 / 英特尔 (Intel) / 10核 / 酷睿i5 / 65W / 20MB / 4.6GHz / 1.8GHz / 9.5MB / i5-13400F / intel / 10核 / 最终幻想13 / 日常办公 电竞娱乐 / Intel 13代 / 带风扇 / 16线程 / 不支持核显",
+      "price": 1199
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i5 14600K",
+      "spec": "Z690 Z790 B660 / INTEL LGA1700 / 英特尔（Intel） / 14核 / 酷睿i5 / 125W / 24MB / 5.3GHz / 2.6GHz / 20MB / i5-14600K / intel / 14核 / 永劫无间 英雄联盟 使命召唤11 / 发烧超频 电竞娱乐 日常办公 / Intel 14代 / 不带风扇 / 20线程 / 支持核显",
+      "price": 1669
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i7 14700KF",
+      "spec": "Z690 Z790 / INTEL LGA1700 / 英特尔 (Intel) / 20核 / 酷睿i7 / 125W / 33MB / 5.6GHz / 2.5GHz / 28MB / i7-14700KF / intel / 20核 / 永劫无间 英雄联盟 使命召唤11 / 发烧超频 电竞娱乐 设计/影像 / Intel 14代 / 不带风扇 / 28线程 / 不支持核显",
+      "price": 2559
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i5 12490F",
+      "spec": "B660 H610 / INTEL LGA1700 / 英特尔(Intel) / 6核 / 酷睿i5 / 65W / 20MB / 4.6GHz / 其他 / 其他 / i5-12490F / intel / 6核 / 永劫无间 守望先锋 英雄联盟 / 电竞娱乐 日常办公 / Intel 12代 / 不带风扇 / 12线程 / 不支持核显",
+      "price": 939
+    },
+    {
+      "category": "cpu",
+      "name": "AMD Ryzen5 9600X",
+      "spec": "AMD AM5接口主板 / AMD AM5 / AMD / 6核 / 锐龙 R5 / 65W / 32MB / 5.4GHz / 3.9GHz / 6MB / AMD 锐龙5 9600X / AMD / 6核 / 赛博朋克2077 刺客信条 / 发烧超频 设计/影像 电竞娱乐 / AMD 9000系列 / 不带风扇 / 12线程 / 支持核显",
+      "price": 1349
+    },
+    {
+      "category": "cpu",
+      "name": "Intel Core i3 12100F",
+      "spec": "4核心 / i5 / intel / LGA1700",
+      "price": 699
+    },
+    {
+      "category": "motherboard",
+      "name": "华硕 B760M-P R2.0 D4",
+      "spec": "INTEL LGA1700 / 华硕(ASUS) / M-ATX（紧凑型） / B760M-P D4 R2.0 / DDR4 / 不支持Wi-Fi连接 / 5200MHz 4800Mhz / 2个 / 64GB / 0个 / 2个 / 1个 / 24+8 / Intel平台 / ≤4 / 1000M / 不支持 / INTEL LGA1700 / SATA接口 M.2接口(NVMe协议) / 不支持 / 非RGB / B760 / 0个 / 支持PCIE4.0",
+      "price": 999
+    },
+    {
+      "category": "motherboard",
+      "name": "ROG CROSSHAIR X870E HERO主板",
+      "spec": "AMD AM5 / ROG / ATX (标准型) / ROG CROSSHAIR X870E HERO / DDR5 / Wi-Fi 7 / 4个 / 256GB / 0个 / 0个 / 2个 / 24+16 / AMD平台 / 5000M / 支持 / AMD AM5 / M.2接口(NVMe协议) / X870E / ARGB / 不支持 / 0个 / 支持PCIE5.0",
+      "price": 4399
+    },
+    {
+      "category": "motherboard",
+      "name": "微星MAG X870 TOMAHAWK WIFI主板",
+      "spec": "AMD AM5 / 微星(MSI) / ATX (标准型) / MAG X870 TOMAHAWK WIFI / DDR5 / Wi-Fi 7 / 8400MHz / 4个 / 0个 / 0个 / 3个 / AMD平台 / ≤4 / 5000M / 支持 / AMD AM5 / SATA接口 PCI-E M.2接口(NVMe协议) / X870 / 不支持 / 0个 / 支持PCIE5.0",
+      "price": 1699
+    },
+    {
+      "category": "motherboard",
+      "name": "微星A520M-A PRO主板 AM4接口",
+      "spec": "AMD AM4 / 微星(MSI) / M-ATX（紧凑型） / A520M-A PRO / DDR4 / 不支持Wi-Fi连接 / 4600/4800MHZ / 2个 / 64GB / 0个 / 1个 / 1个 / 24+4 / AMD平台 / ≤4 / 1000M / 不支持 / AMD AM4 / SATA接口 M.2接口（SATA总线） M.2接口(NVMe协议) / A520 / 非RGB / 不支持 / 0个 / 支持PCIE3.0",
+      "price": 379
+    },
+    {
+      "category": "motherboard",
+      "name": "技嘉 Z790 UD AX DDR5 超耐久",
+      "spec": "INTEL LGA1700 / 技嘉(GIGABYTE) / ATX（标准型） / Z790 UD AX / DDR5 / 支持 / 7600MHz / 4个 / 192GB / 0个 / 2个 / 3个 / 24+16 / Intel平台 / 5-8 / 2500M / 支持 / INTEL LGA1700 / SATA接口 M.2接口(NVMe协议) / 不支持 / 支持 / Z790 / 0个 / 支持PCIE5.0",
+      "price": 1539
+    },
+    {
+      "category": "motherboard",
+      "name": "微星PRO B760M-E DDR5主板",
+      "spec": "INTEL LGA1700 / 微星 (MSI) / M-ATX（紧凑型） / PRO B760M-E / DDR5 / 不支持 / 6400MHz / 2个 / 128GB / 0个 / 1个 / 1个 / 24+8 / Intel平台 / ≤4 / 1000M / 不支持 / INTEL LGA1700 / SATA接口 M.2接口（SATA总线） M.2接口(NVMe协议) / 不支持 / RGB / B760 / 0个 / 支持PCIe4.0",
+      "price": 589
+    },
+    {
+      "category": "motherboard",
+      "name": "技嘉B760M魔鹰主板",
+      "spec": "INTEL LGA1700 / 技嘉（GIGABYTE） / M-ATX（紧凑型） / B760M GAMING AC DDR4 / DDR4 / 支持 / 5000/5133MHZ / 2个 / 64GB / 0个 / 1个 / 1个 / 24+8 / Intel平台 / ≤4 / 2500M / 支持 / INTEL LGA1700 / SATA接口 M.2接口(NVMe协议) / 不支持 / 支持 / B760 / 0个 / PCIE4.0",
+      "price": 889
+    },
+    {
+      "category": "motherboard",
+      "name": "华硕 TUF GAMING B760M-PLUS WIFI DDR4 重炮手",
+      "spec": "INTEL LGA1700 / 华硕（ASUS） / M-ATX（紧凑型） / TUF GAMING B760M-PLUS WIFI D4 / DDR4 / Wi-Fi 6 / 5200/5333MHZ / 4个 / 128GB / 0个 / 1个 / 2个 / 24+12 / Intel平台 / ≤4 / 2500M / 支持 / INTEL LGA1700 / SATA接口 M.2接口(NVMe协议) / 不支持 / ARGB / B760 / 0个 / 支持PCIE5.0",
+      "price": 1229
+    },
+    {
+      "category": "motherboard",
+      "name": "华硕 PRIME H610M-A D4 大师小板",
+      "spec": "LGA1700 / 华硕(ASUS) / M-ATX（紧凑型） / PRIME H610M-A D4 / DDR4 / 不支持 / 2933/3000MHz 2400/2666... / 2个 / 64GB / 0个 / 1个 / 1个 / 24+8 / Intel平台 / ≤4 / 1000M / 不支持 / INTEL LGA1700 / SATA接口 M.2接口(NVMe协议) / 不支持 / ARGB / H610 / 0个 / PCIE4.0",
+      "price": 699
+    },
+    {
+      "category": "motherboard",
+      "name": "微星PRO H610M-E DDR4主板",
+      "spec": "INTEL LGA1700 / 微星(MSI) / M-ATX（紧凑型） / PRO H610M-E DDR4 / DDR4 / 不支持Wi-Fi连接 / 3200/3333MHz / 2个 / 64GB / 0个 / 1个 / 1个 / 24+8 / Intel平台 / ≤4 / 1000M / 不支持 / INTEL LGA1700 / M.2接口(NVMe协议) SATA接口 M.2接口(SATA总线) / 不支持 / RGB / H610 / 0个 / 支持PCIE4.0",
+      "price": 439
+    },
+    {
+      "category": "motherboard",
+      "name": "七彩虹BATTLE-AX B860M-WHITE WIFI V20主板",
+      "spec": "INTEL LGA1851 / 七彩虹(Colorful) / M-ATX（紧凑型） / BATTLE-AX B860M-WHITE WIFI V20 / DDR5 / Wi-Fi 6 / 7600MHz 4800Mhz / 4个 / 192GB / 1个 / 1个 / 1个 / 24+16 / Intel平台 / ≤4 / 2500M / 支持 / INTEL LGA1851 / M.2接口(NVMe协议) SATA接口 / 不支持 / ARGB / B860 / 0个 / 支持PCIE5.0",
+      "price": 889
+    },
+    {
+      "category": "motherboard",
+      "name": "ROG STRIX B850-A GAMING WIFI S吹雪主板",
+      "spec": "AMD AM5 / ROG / ATX（标准型） / ROG STRIX B850-A GAMING WIFI S / DDR5 / Wi-Fi 7 / 7600MHz 8000MHz / 4个 / 256GB / 0个 / 2个 / 2个 / 24+16 / AMD平台 / ≤4 / 2500M / 支持 / AMD AM5 / SATA接口 M.2接口(NVMe协议) / B850 / ARGB / 不支持 / 0个 / PCIE5.0",
+      "price": 1999
+    },
+    {
+      "category": "motherboard",
+      "name": "微星X870 GAMING PLUS WIFI主板 AM5",
+      "spec": "AMD AM5 / 微星(MSI) / ATX（标准型） / X870 GAMING PLUS WIFI / DDR5 / Wi-Fi 7 / 8200MHz / 4个 / 0个 / 1个 / 24+16 / AMD平台 / ≤4 / 5000M / 支持 / AMD AM5 / PCI-E SATA接口 M.2接口(NVMe协议) / X870 / 不支持 / 0个 / 支持PCIE5.0",
+      "price": 1899
+    },
+    {
+      "category": "motherboard",
+      "name": "ROG CROSSHAIR X870E EXTREME主板 AM5",
+      "spec": "AMD AM5 / ROG / E-ATX（加强型） / ROG CROSSHAIR X870E EXTREME / DDR5 / Wi-Fi 7 / 8800+MHz 8600MHz / 4个 / 256GB / 0个 / 0个 / 2个 / 24+16 / AMD平台 / ≤4 / 10000M / 支持 / AMD AM5 / M.2接口(NVMe协议) / X870E / ARGB / 不支持 / 0个 / 支持PCIE5.0",
+      "price": 9499
+    },
+    {
+      "category": "motherboard",
+      "name": "华硕ROG X870E EXTREME主板 AM5",
+      "spec": "AMD AM5 / 华硕(ASUS) / E-ATX（加强型） / ROG X870E EXTREME / DDR5 / Wi-Fi 7 / 4个 / 0个 / AMD平台 / ≤4 / 2500M / 支持 / AMD AM5 / M.2接口(NVMe协议) / X870 / ARGB / 不支持 / 0个 / 支持PCIe5.0",
+      "price": 9999
+    },
+    {
+      "category": "motherboard",
+      "name": "ROG STRIX B860-A GAMING WIFI S吹雪主板",
+      "spec": "INTEL LGA1851 / ROG / ATX（标准型） / ROG STRIX B860-A GAMING WIFI S / DDR5 / Wi-Fi 7 / 9500+MHz 8800+MHz / 4个 / 256GB / 0个 / 2个 / 2个 / 24+16 / Intel平台 / ≤4 / 2500M / 支持 / INTEL LGA1851 / SATA接口 M.2接口(NVMe协议) / 不支持 / ARGB / B860 / 0个 / 支持PCIE5.0",
+      "price": 1849
+    },
+    {
+      "category": "motherboard",
+      "name": "技嘉B860M小雕DDR5主板",
+      "spec": "INTEL LGA1851 / 技嘉 (GIGABYTE) / M-ATX（紧凑型） / B860M AORUS ELITE / DDR5 / 不支持 / 5600MHZ / 4个 / Intel平台 / 2500M / 不支持 / INTEL LGA1851 / SATA接口、M.2接口(NVMe协议) / B860 / 0个 / 支持PCIe5.0",
+      "price": 1189
+    },
+    {
+      "category": "motherboard",
+      "name": "技嘉B860M小雕WIFI6E主板",
+      "spec": "LGA1851 / 技嘉（GIGABYTE） / M-ATX（紧凑型） / B860M A ELITE WIFI6E / DDR5 / Wi-Fi 6E / 9200+MHz / 4个 / Intel平台 / 2500M / 支持 / INTEL LGA1851 / SATA接口 M.2接口(NVMe协议) / B860 / 0个 / PCIE5.0",
+      "price": 1239
+    },
+    {
+      "category": "motherboard",
+      "name": "技嘉B860M冰雕WIFI6E主板",
+      "spec": "INTEL LGA1851 / 技嘉（GIGABYTE） / M-ATX（紧凑型） / B860M A ELT WF6E ICE / DDR5 / Wi-Fi 6 / 9200+MHz / 4个 / Intel平台 / 2500M / 支持 / INTEL LGA1851 / SATA接口 M.2接口(NVMe协议) / 不支持 / B860 / 0个",
+      "price": 1239
+    },
+    {
+      "category": "motherboard",
+      "name": "技嘉B860M电竞雕WIFI7主板",
+      "spec": "INTEL LGA1851 / 技嘉 (GIGABYTE) / M-ATX（紧凑型） / B860M AORUS PRO WIFI7 / DDR5 / 支持Wi-Fi7 / 9200+MHz / 4个 / Intel平台 / 2500M / 支持 / INTEL LGA1851 / SATA接口、M.2接口(NVMe协议) / B860 / 0个",
+      "price": 1389
+    },
+    {
+      "category": "ram",
+      "name": "金士顿骇客神条16GB DDR5 4800",
+      "spec": "金士顿(Kingston) / DDR5 / 16GB / KF548C38BB-16或KF548C38BB-16-SP / 288-Pin DIMM / 4800MHz / 台式机内存 / 1条单条 / 16GB / 马甲条",
+      "price": 629
+    },
+    {
+      "category": "ram",
+      "name": "金士顿8GB DDR4 2666",
+      "spec": "金士顿(Kingston) / DDR4 / 8GB / KVR26N19S6L/8-SP或KVR26N19S8/8或KVR26N19S8/8-SP或KVR26N19S6/8-SP或... / 288-Pin DDR4 UDIMM / 2400/2666MHz / 台式机内存 / 1条单条 / 8GB / 普条",
+      "price": 239
+    },
+    {
+      "category": "ram",
+      "name": "芝奇 焰锋戟 64G(32x2) DDR5 6000 RGB C30 /AMD EXPO",
+      "spec": "芝奇 / DDR5 / 64GB / 6000MHZ",
+      "price": 8888
+    },
+    {
+      "category": "ram",
+      "name": "金士顿 8GB DDR4 3200",
+      "spec": "金士顿(Kingston) / DDR4 / 8GB / KVR32N22S6L/8-SPBK或KVR32N22S8L/8-SPBK或KVR32N22S8L/8-SP或KVR32N22S8... / 288-Pin DDR4 UDIMM / 3200/3333MHz / 台式机内存 / 1条单条 / 8GB / 普条",
+      "price": 639
+    },
+    {
+      "category": "ram",
+      "name": "金百达 16GB(8X2 )DDR4 3200 C16 银爵",
+      "spec": "金百达 / DDR4 / 16GB / 3200MHZ",
+      "price": 659
+    },
+    {
+      "category": "ram",
+      "name": "金士顿 16GB DDR4 2666",
+      "spec": "金士顿 / DDR4 / 16GB / DDR4 / 288-Pin DDR4 UDIMM / 1.2V / 2400/2666MHz / 台式机内存 / 1条单条 / 16GB / 马甲条",
+      "price": 699
+    },
+    {
+      "category": "ram",
+      "name": "金士顿 32GB DDR4 3200 野兽",
+      "spec": "金士顿 / DDR4 / 32GB / KF432C16BB/32或KF432C16BB/32-SPBK或KF432C16BB/32-SP或HX432C16FB3/32或... / 288-Pin DDR4 UDIMM / 3200/3333MHz / 台式机内存 / 1条单条 / 32GB / 马甲条",
+      "price": 1998
+    },
+    {
+      "category": "ram",
+      "name": "威刚 16GB DDR4 3200频  XPG威龙Z1 金色",
+      "spec": "威刚(ADATA) / DDR4 / 16GB / Z1 DDR4 3200 16GB / 288-PIN DIMM / 3200/3333MHz / 台式机内存 / 1条单条 / 16GB / 马甲条",
+      "price": 899
+    },
+    {
+      "category": "ram",
+      "name": "金士顿骇客神条16GB DDR4 2666",
+      "spec": "金士顿(Kingston) / DDR4 / 8GB / KF426C16BBK2/16或KF426C16BBK2/16-SP或HX426C16FB3K2/16-SP或HX426C16FB... / 288-Pin DDR4 UDIMM / 2400/2666MHz / 台式机内存 / 2条套条 / 16GB / 马甲条",
+      "price": 1199
+    },
+    {
+      "category": "ram",
+      "name": "金士顿 DDR4 2666 8GB",
+      "spec": "金士顿(Kingston) / DDR4 / 8GB / KF426C16BB/8或KF426C16BB/8-SP或KF426C16BB/8-SPBK或HX426C16FB2/8或HX42... / 288-Pin DDR4 UDIMM / 2400/2666MHz / 台式机内存 / 1条单条 / 8GB / 马甲条",
+      "price": 1189
+    },
+    {
+      "category": "ram",
+      "name": "金士顿骇客神条 64GB DDR5 4800",
+      "spec": "金士顿(Kingston) / DDR5 / 32GB / KF548C38BBK2-64 / 288-Pin DIMM / 1.1V / 4800MHz / 台式机内存 / 2条套 / 64GB / 马甲条",
+      "price": 1339
+    },
+    {
+      "category": "ram",
+      "name": "七彩虹 16G DDR5 6000频 马甲条 战斧系列",
+      "spec": "七彩虹 / DDR5 / 16GB / 6000MHZ",
+      "price": 1198
+    },
+    {
+      "category": "ram",
+      "name": "七彩虹 32GB(16G*2) 6400 C40 天蝎座",
+      "spec": "七彩虹 / DDR5 / 32GB / 6400MHZ",
+      "price": 799
+    },
+    {
+      "category": "ram",
+      "name": "铨兴（QUANXING）DDR4 3200MHz 台式机内存条 8G",
+      "spec": "铨兴 / DDR4 / 8GB",
+      "price": 299
+    },
+    {
+      "category": "ram",
+      "name": "金士顿 FURY 16GB(8G×2) DDR5 6000 Beast 超级野兽 海力士A-die颗粒 CL30",
+      "spec": "金士顿 / DDR5 / 16GB / 6000MHZ",
+      "price": 749
+    },
+    {
+      "category": "ram",
+      "name": "金百达 DDR4 2666 8GB 长鑫颗粒",
+      "spec": "金百达（KINGBANK） / DDR4 / 2400/2666MHz / 8GB",
+      "price": 199
+    },
+    {
+      "category": "ram",
+      "name": "阿斯加特 32G D5 6400 RGB CL32 吹雪联名",
+      "spec": "阿斯加特（Asgard） / DDR5 / 6400MHz / 32GB",
+      "price": 889
+    },
+    {
+      "category": "ram",
+      "name": "阿斯加特 64G D5 6400 金伦加TUF联名",
+      "spec": "阿斯加特（Asgard） / DDR5 / 6400MHz / 64GB",
+      "price": 1429
+    },
+    {
+      "category": "ram",
+      "name": "金百达 32GB(16GX2) 6800 A-Die C34 黑刃 白色",
+      "spec": "金百达 / DDR5 / 32GB / 6800MHZ",
+      "price": 3099
+    },
+    {
+      "category": "ram",
+      "name": "金百达 32G(16Gx2) 6000 A-die C30 银爵",
+      "spec": "金百达 / DDR5 / 32GB / 6000MHZ",
+      "price": 2999
+    },
+    {
+      "category": "gpu",
+      "name": "华硕 DUAL RTX4060 O8G WHITE 白",
+      "spec": "HDMI DP / 华硕(ASUS) / RTX 4060 / 华硕DUAL (雪豹) / 8GB / GDDR6 / 128bit / 8pin x 1 / 是 / 650W以上 / 22.72cm / 无光 / NVIDIA / 双风扇",
+      "price": 2549
+    },
+    {
+      "category": "gpu",
+      "name": "华硕 ROG RTX5090D O32G 夜神",
+      "spec": "PCIe 5.0 / 华硕(ASUS) / ROG RTX5090DV2-O24G-BTF夜神 / 华硕ROG ASTRAL / 24GB / GDDR7 / 512bit / 16pin x 1 / 外接供电 / 1200W以上 / 35.7cm / ARGB / NVIDIA / 三风扇",
+      "price": 29979
+    },
+    {
+      "category": "gpu",
+      "name": "华硕 PRIME RTX5060Ti O8G 大师",
+      "spec": "PCIe 5.0 / 华硕（ASUS） / PRIME GeForce RTX 5060 Ti O 8G 电竞游戏显卡 / 华硕PRIME / 8GB / GDDR7 / 128bit / 8pin x 1 / 是 / 550W以上 / 30.4cm / NVIDIA / 三风扇",
+      "price": 3499
+    },
+    {
+      "category": "gpu",
+      "name": "丽台 RTX A1000 8GB GDDR6 专业图形显卡",
+      "spec": "PCIe 4.0 / 丽台(LEADTEK) / RTX A1000 8GB / NVIDIA公版卡 / 8GB / GDDR6 / 128bit / 无 / 非外接供电 / 300W以上 / 16.3cm / 无光 / NVIDIA / 单风扇",
+      "price": 3839
+    },
+    {
+      "category": "gpu",
+      "name": "华硕 ATS RTX4070SUPER OC 12G 巨齿鲨",
+      "spec": "PCIe 5.0 / 华硕(ASUS) / ATS RTX5070 O12G-V2 巨齿鲨 / 华硕ATS (巨齿鲨) / 12GB / GDDR7 / 192bit / 其他 / 16pin x 1 / 外接供电 / 750W以上 / 30.5cm / ARGB / NVIDIA / 三风扇",
+      "price": 5699
+    },
+    {
+      "category": "gpu",
+      "name": "技嘉 RTX5060 Gaming OC 8GB 魔鹰",
+      "spec": "DP HDMI / 技嘉(GIGABYTE) / GeForce RTX 5060 Gaming OC 8G / 魔鹰(GAMING) / 8GB / GDDR7 / 128bit / 8pin x 1 / 是 / 500W以上 / 28.1cm / RGB / NVIDIA / 三风扇",
+      "price": 2899
+    },
+    {
+      "category": "gpu",
+      "name": "索泰 RTX3050 8G D6 毁灭者 HA",
+      "spec": "PCIe 4.0 / 索泰ZOTAC / RTX 3050 6G 毁灭者 OC / 毁灭者 / 6GB / GDDR6 / 128bit / 2565MHz / 8pin x1 / 非外接供电 / 450W以上 / 220cm / 无光 / NVIDIA / 双风扇",
+      "price": 1499
+    },
+    {
+      "category": "gpu",
+      "name": "盈通 RX550 4G 4HDMI 4屏显卡 GA 半高",
+      "spec": "HDMI / 盈通(yeston) / RX550-4G 4HDMI / 盈通(yeston)多屏显卡 / 4GB / GDDR5 / 128bit / 1183MHz / 无 / 非外接供电 / 300W以上 / 16.2cm / 无光 / AMD芯片 / 单风扇",
+      "price": 759
+    },
+    {
+      "category": "gpu",
+      "name": "技嘉 RTX4060 Gaming OC 8G DLSS 3 魔鹰",
+      "spec": "PCIe 4.0 / 技嘉 (GIGABYTE) / 技嘉魔鹰RTX4060 OC / 魔鹰 / GDDR6X / 256bit / 其他 / 外接供电 / 700W以上 / RGB / NVIDIA / 三风扇",
+      "price": 2308
+    },
+    {
+      "category": "gpu",
+      "name": "梅捷 GTX750 4G火龙 GD5 独立显卡",
+      "spec": "PCIe 3.0 / 梅捷 / GTX750 4G火龙 / 梅捷火龙 / 4GB / GDDR5 / 128bit / 900MHz / 无 / 非外接供电 / 300W以上 / 180cm / 无光 / NVIDIA / 单风扇",
+      "price": 389
+    },
+    {
+      "category": "gpu",
+      "name": "七彩虹 RTX5070 Vulcan X OC 12GB 火神",
+      "spec": "DP HDMI / 七彩虹 / iGame GeForce RTX 5070 Vulcan X OC / 七彩虹火神(Vulcan) / 12GB / GDDR7 / 192bit / 16pin x 1 / 外接供电 / 750W以上 / 34.9cm / RGB / NVIDIA / 三风扇",
+      "price": 6499
+    },
+    {
+      "category": "gpu",
+      "name": "微星 RTX5060Ti 8G VENTUS 3X OC 万图师",
+      "spec": "DP HDMI / 微星(MSI) / RTX5060Ti 8G万图师3X OC / 微星 万图师(VENTUS) / 8GB / GDDR7 / 128bit / 2250-2655MHz / 8pin x 1 / 是 / 600W以上 / 306mm / 无光 / NVIDIA / 双风扇",
+      "price": 3299
+    },
+    {
+      "category": "gpu",
+      "name": "华擎 RX9070XT Steel Legend 16G 钢铁传奇",
+      "spec": "PCIe 5.0 / 华擎 (ASRock) / RX 9070XT / 华擎 钢铁传奇(Steel Legend) / 16GB / GDDR6 / 256bit / 8pinx2 / 外接供电 / 850W以上 / 29.8cm / ARGB / AMD芯片 / 三风扇",
+      "price": 6299
+    },
+    {
+      "category": "gpu",
+      "name": "微星 RTX3080Ti SUPRIM X 12G 超龙X",
+      "spec": "HDMI DP / 微星(MSI) / RTX 3080Ti / 微星超龙(SUPRIM) / 12GB / GDDR6X / 384bit / 8pin×3 / 非外接供电 / 850W以上 / 33.6cm / RGB / NVIDIA / 三风扇",
+      "price": 11499
+    },
+    {
+      "category": "gpu",
+      "name": "七彩虹 RTX4070 SUPER AD OC 12GB 银鲨",
+      "spec": "DP HDMI / 七彩虹（Colorful） / RTX 4070 Super / 七彩虹AD (Advanced) / 12GB / GDDR6X / 192bit / 外接供电 / 700W以上 / 34.3cm / RGB / NVIDIA / 三风扇",
+      "price": 5799
+    },
+    {
+      "category": "gpu",
+      "name": "华硕 DUAL RTX4060 O8G V2 雪豹",
+      "spec": "HDMI DP / 华硕(ASUS) / DUAL GeForce RTX 4060 O8G V2 / 华硕DUAL (雪豹) / 8GB / GDDR6 / 128bit / 8pin x1 / 是 / 500W以上 / 20.2cm / NVIDIA / 双风扇",
+      "price": 2699
+    },
+    {
+      "category": "gpu",
+      "name": "华硕 TX RTX4060 O8G GAMING 天选 ",
+      "spec": "HDMI DP / 华硕(ASUS) / TX GAMING GeForce RTX 4060 0 O8G / 天选系列 / 8GB / GDDR6 / 128bit / 8pin x1 / 是 / 550W以上 / 31.7cm / RGB / NVIDIA / 三风扇",
+      "price": 3899
+    },
+    {
+      "category": "gpu",
+      "name": "华硕 PROART RTX4060Ti O16G 创艺国度",
+      "spec": "HDMI DP / 华硕（ASUS） / RTX 4060 Ti O16G / PROART（创意国度） / 16GB / GDDR6 / 128bit / 8pin x 1 / 是 / 650W以上 / 30cm / 无光 / NVIDIA / 三风扇",
+      "price": 4899
+    },
+    {
+      "category": "gpu",
+      "name": "蓝宝石RX 9060 XT 16G黑钻显卡",
+      "spec": "HDMI DP / 蓝宝石(Sapphire) / RX 9060 XT / 蓝宝石黑钻 / 16GB / GDDR6 / 128bit / 其他 / 8pin x 1 / 外接供电 / 650W以上 / 26.2cm / ARGB / AMD芯片 / 三风扇",
+      "price": 3099
+    },
+    {
+      "category": "gpu",
+      "name": "昂达 GT1030 4G D4 典范",
+      "spec": "PCIe 3.0 / 昂达（ONDA） / GT1030典范4GD4-V5 / 昂达典范 / 4GB / GDDR4 / 64bit / 无 / 非外接供电 / 300W以上 / 15.6cm / 无光 / NVIDIA / 水冷",
+      "price": 629
+    },
+    {
+      "category": "storage",
+      "name": "西部数据 蓝盘3TB 转速5400 缓存256MB",
+      "spec": "SATA / 西部数据（WD） / 机械硬盘 / WD30EZAX / 台式机硬盘 / 3TB / 5400rpm / 256MB / WD30EZAX / 3TB / 长147mm 宽101.6mm 高26.1mm / 3.5英寸",
+      "price": 1619
+    },
+    {
+      "category": "storage",
+      "name": "希捷 酷玩540 1TB 读速9500MB/s",
+      "spec": "M.2接口(NVMe协议) / 希捷(SEAGATE) / SSD固态硬盘 / ZP1000GM30004 / SSD固态硬盘 / 960GB-1TB / 2GB / 100062791351",
+      "price": 959
+    },
+    {
+      "category": "storage",
+      "name": "希捷 酷鱼 2TB 256MB 5400转",
+      "spec": "SATA / 希捷（SEAGATE） / 硬盘 / ST2000DM005 / 台式机硬盘 / 2TB / 5400rpm / 256MB / 100000458135 / 长146.99mm 宽101.85mm 高20.2mm / 3.5英寸",
+      "price": 1189
+    },
+    {
+      "category": "storage",
+      "name": "铠侠 SD10 1TB 读速5000MB/s",
+      "spec": "M.2接口(NVMe协议) / 铠侠(Kioxia) / SD10系列 / LSD10Z001TC8 / 固态硬盘 / 1TB / 无缓存 / 100079639418",
+      "price": 1399
+    },
+    {
+      "category": "storage",
+      "name": "希捷 酷玩520 1TB 读速5000MB/s",
+      "spec": "M.2接口(NVMe协议) / 希捷(SEAGATE) / SSD固态硬盘 / ZP1000GV3A012 / 固态硬盘 / 960GB-1TB / 无缓存 / 100050752010",
+      "price": 529
+    },
+    {
+      "category": "storage",
+      "name": "铭瑄 256GB SSD 读速520MB/s 御林卫",
+      "spec": "SATA接口 / 铭瑄(MAXSUN) / 御林卫系列 / MS256GBX7 / SSD / 256GB / 无缓存 / 100023498257",
+      "price": 259
+    },
+    {
+      "category": "storage",
+      "name": "西部数据 SN7100 1TB M.2接口 读速7000MB/s",
+      "spec": "M.2接口(NVMe协议) / 西部数据(WD) / SSD固态硬盘 / WDS100T4X0E / SSD固态硬盘 / 1TB / 无缓存 / 1012948444659",
+      "price": 1197
+    },
+    {
+      "category": "storage",
+      "name": "雷克沙 1TB ARES 战神 读速7000MB/s 魔域联名礼盒  ",
+      "spec": "M.2接口(NVMe协议) / 雷克沙（Lexar） / 1TB",
+      "price": 469
+    },
+    {
+      "category": "storage",
+      "name": "西部数据 SA510 250GB SSD 读速555MB/s",
+      "spec": "SATA接口 / 西部数据（WD） / WDS250G3B0A / 256GB / TLC",
+      "price": 329
+    },
+    {
+      "category": "storage",
+      "name": "三星 870EVO 1TB SSD 读速560MB/s",
+      "spec": "SATA接口 / 三星（SAMSUNG） / 870 EVO / MZ-77E1T0B / SSD固态硬盘 / 1TB / 1GB / MZ-77E1T0B",
+      "price": 2799
+    },
+    {
+      "category": "storage",
+      "name": "三星 990PRO 1TB 读速7450MB/S",
+      "spec": "M.2接口(NVMe协议) / 三星(SAMSUNG) / 990 PRO / MZ-V9P1TBW / SSD / 1TB / 1GB / MZ-V9P1TBW",
+      "price": 1799
+    },
+    {
+      "category": "storage",
+      "name": "梵想 S500PRO 256GB 读速2320MB/s",
+      "spec": "M.2接口(NVMe协议) / 梵想(FANXIANG) / S500 / S500Pro / SSD固态硬盘 / 256GB / 无缓存 / 100037315702",
+      "price": 329
+    },
+    {
+      "category": "storage",
+      "name": "梵想 S500 1TB 读速2100MB/s",
+      "spec": "M.2接口(NVMe协议) / 梵想(FANXIANG) / S500 / S500-1TB / SSD固态硬盘 / 1TB / 无缓存 / 100036659907",
+      "price": 879
+    },
+    {
+      "category": "storage",
+      "name": "梵想 S500 512GB 读速2100MB/s",
+      "spec": "M.2接口(NVMe协议) / 梵想(FANXIANG) / S500 / S500-512G / SSD固态硬盘 / 512GB / 无缓存 / 100025824152",
+      "price": 579
+    },
+    {
+      "category": "storage",
+      "name": "西部数据 蓝盘1TB 转速5400 缓存64MB",
+      "spec": "SATA / 西部数据（WD） / 机械硬盘 / WD10EARZ / 台式机硬盘 / 1TB / 5400rpm / 64MB / 100090508378 / 长147mm 宽101.6mm高26.1mm / 3.5英寸",
+      "price": 1099
+    },
+    {
+      "category": "storage",
+      "name": "梵想 S500 128GB 读速1130MB/s",
+      "spec": "M.2接口(NVMe协议) / 梵想（FANXIANG） / S500 / S500-128G / SSD固态硬盘 / 120-128GB / 无缓存 / 100013791105",
+      "price": 199
+    },
+    {
+      "category": "storage",
+      "name": "梵想S500MQ 1TB固态硬盘",
+      "spec": "M.2接口(NVMe协议) / 梵想(FANXIANG) / S500MQ / S500MQ / SSD固态硬盘 / 1TB / 无缓存 / 100070463360",
+      "price": 849
+    },
+    {
+      "category": "storage",
+      "name": "三星 870EVO 4TB SSD 读速560MB/s",
+      "spec": "SATA3.0 / 三星（SAMSUNG） / 870 EVO / MZ-77E4T0B / SSD / 4TB / 4GB / MZ-77E4T0B",
+      "price": 9999
+    },
+    {
+      "category": "storage",
+      "name": "三星 990PRO 4TB 读速7450MB/s 散热片版",
+      "spec": "M.2接口(NVMe协议) / 三星(SAMSUNG) / 990 PRO / MZ-V9P4T0CW / SSD固态硬盘 / 4TB / 4GB / 100068683127",
+      "price": 6099
+    },
+    {
+      "category": "storage",
+      "name": "三星 990PRO 2TB 读速7450MB/S",
+      "spec": "M.2接口(NVMe协议) / 三星(SAMSUNG) / 990 PRO / MZ-V9P2T0BW / NVMe M.2 SSD / 2TB / 2GB / 10004562765",
+      "price": 2999
+    },
+    {
+      "category": "psu",
+      "name": "长城 500W直出 黑",
+      "spec": "长城 / HOPE-6000DS / ATX 电源 / 20+4 pin / 500W",
+      "price": 208
+    },
+    {
+      "category": "psu",
+      "name": "长城 700W 直出 黑",
+      "spec": "长城 / HOPE-8000DS / ATX 电源 / 20+4 pin / 700W",
+      "price": 299
+    },
+    {
+      "category": "psu",
+      "name": "先马 平头哥650 额定500W 黑",
+      "spec": "先马 / 平头哥650 / ATX 电源 / 20+4 pin / 500W",
+      "price": 130
+    },
+    {
+      "category": "psu",
+      "name": "长城G5 550W铜牌全模组电源",
+      "spec": "20+4 pin / 长城（Great Wall） / G5 / ATX 电源",
+      "price": 299
+    },
+    {
+      "category": "psu",
+      "name": "大水牛 300W 劲睿 白牌 黑",
+      "spec": "大水牛 / 劲睿300 / ATX 电源 / 20+4 pin / 300W",
+      "price": 129
+    },
+    {
+      "category": "psu",
+      "name": "长城 750W直出 风火轮 黑",
+      "spec": "长城 / GW-750F / ATX 3.0 / 20+4 pin / 750W",
+      "price": 369
+    },
+    {
+      "category": "psu",
+      "name": "长城 350W 直出 黑",
+      "spec": "长城 / HOPE-4500DS / ATX 电源 / 20+4 pin / 350W",
+      "price": 174
+    },
+    {
+      "category": "psu",
+      "name": "长城 450W 直出 黑",
+      "spec": "长城 / HOPE-5500ZK / ATX 电源 / 20+4 pin / 450W",
+      "price": 184
+    },
+    {
+      "category": "psu",
+      "name": "海韵 PRIME TX-1600 1600W 猫头鹰联名 白金全模",
+      "spec": "海韵 / PRIME TX-1600 ATX 3.1 (Noctua) / 20+4 pin / 1600W",
+      "price": 4299
+    },
+    {
+      "category": "psu",
+      "name": "金河田 白金A+850W 白金全模 白",
+      "spec": "金河田 / 950ALG / ATX 3.1 / 20+4 pin / 850W",
+      "price": 499
+    },
+    {
+      "category": "psu",
+      "name": "华硕 ROG THOR 1000P3 GAMING 雷神3代 白金全模",
+      "spec": "华硕 / ATX 3.0 / 1000W",
+      "price": 2899
+    },
+    {
+      "category": "psu",
+      "name": "长城 850W P8 铜牌 白 ",
+      "spec": "长城 /  P8白色铜牌 / 701-900W",
+      "price": 344
+    },
+    {
+      "category": "psu",
+      "name": "爱国者 DH600W 白牌 黑",
+      "spec": "爱国者 / 501-700W",
+      "price": 179
+    },
+    {
+      "category": "psu",
+      "name": "海韵FOCUS金牌1000W ATX3电源",
+      "spec": "20+4 pin / SEASONIC / FOCUS GX-1000 / ATX 电源",
+      "price": 1499
+    },
+    {
+      "category": "psu",
+      "name": "海韵FOCUS金牌1000W全模ATX3电源",
+      "spec": "20+4 pin / SEASONIC / FOCUS GX1000 ATX3.0 / ATX 电源",
+      "price": 1499
+    },
+    {
+      "category": "psu",
+      "name": "海韵 PRIME TX1600W 钛金全模 黑",
+      "spec": "海韵 / PRIME TX1600 ATX3.0 / ATX 3.1 / 20+4 pin / 1600W",
+      "price": 3999
+    },
+    {
+      "category": "psu",
+      "name": "海韵 PRIME TX1300W 钛金全模 黑",
+      "spec": "海韵 / PRIME TX1300 ATX3.0 / ATX 3.1 / 20+4 pin / 1300W",
+      "price": 3299
+    },
+    {
+      "category": "psu",
+      "name": "海韵 PRIME PX1600W 白金全模 黑",
+      "spec": "海韵 / PRIME PX1600 ATX3.0 / ATX 3.1 / 20+4 pin / 1600W",
+      "price": 3399
+    },
+    {
+      "category": "psu",
+      "name": "海韵 FOCUS GX1000W 金牌全模 白",
+      "spec": "海韵 / FOCUS GX1000 ATX3.0 white / ATX 电源 / 20+4 pin / 1000W",
+      "price": 1459
+    },
+    {
+      "category": "psu",
+      "name": "海韵 峰睿 1000W ATX3 金牌全模 黑",
+      "spec": "海韵 / VERTEX GX-1000 / ATX 3.1 / 20+4 pin / 1000W",
+      "price": 1549
+    },
+    {
+      "category": "cooler",
+      "name": "动力火车 臻界 G1 玻璃侧透 机箱",
+      "spec": "ATX、M-ATX / 动力火车（PowerTrain） / 臻界G1 / 中型机箱（中塔机箱） / 360冷排、240冷排、120冷排 / 下置 / 支持Type-C接口 / 0 / SPCC钢材 / ≤42cm / 174mm / 黑色",
+      "price": 214
+    },
+    {
+      "category": "cooler",
+      "name": "爱国者 Q1 白 ",
+      "spec": "M-ATX（紧凑型），MINI-ITX（迷你型） / 爱国者（aigo） / 爱国者Q1白色 / 中型机箱（中塔机箱）",
+      "price": 199
+    },
+    {
+      "category": "cooler",
+      "name": "玩嘉 问界PLUS 白色一体式曲面玻璃海景房 ",
+      "spec": "ATX（标准型）、M-ATX / 玩嘉 / 问界PLUS / 中型机箱（中塔机箱） / 360冷排、240冷排 / 0 / 钢化玻璃、SPCC钢材 / ≤42cm / 165mm / 白色 / 0 / 3个 / 8个 / 8-12kg / 支持RGB光控",
+      "price": 329
+    },
+    {
+      "category": "cooler",
+      "name": "先马 惊鸿2 海景房 白色",
+      "spec": "ATX、M-ATX / 先马（SAMA） / 惊鸿2（白） / 中型机箱（中塔机箱） / 360冷排、280冷排、240冷排 / 下置 / 不支持Type-C接口 / 0 / 钢化玻璃 SPCC钢材 / ≤42cm / 165mm / 白色 / 0 / 2个 / USB3.0*1个、USB2.0*1个、3.5mm二合一音频接口、重启键、开/关机器键 / 9个 / 5-8kg / 不支持RGB光控",
+      "price": 159
+    },
+    {
+      "category": "cooler",
+      "name": "爱国者 星璨 岚 全景海景房 黑",
+      "spec": "M-ATX（紧凑型）、MINI-ITX / 爱国者(aigo) / 爱国者星璨岚黑色 / 小型机箱 / 360冷排、280冷排、240冷排 / 下置 / 1个 / 0 / SPCC钢材 / ≤39cm / 170mm / 黑色 / 0 / 2个 / USB3.0*1+Type-c*1 / 9个 / 8-12kg",
+      "price": 249
+    },
+    {
+      "category": "cooler",
+      "name": "半岛铁盒 应龙360 全景海景房黑",
+      "spec": "M-ATX（紧凑型）、MINI-ITX / 半岛铁盒（PADO） / 应龙360黑色 / 中型机箱（中塔机箱） / 360冷排、240冷排 / 下置 / 不支持 / 0 / SPCC钢材 / ≤40cm / 185mm / 黑色 / 0 / 2个 / USB3.0*1+USB2.0*1+HD Audio / 9个 / 5-8kg",
+      "price": 179
+    },
+    {
+      "category": "cooler",
+      "name": "华硕 创梦60 PA602 限定版机箱 ",
+      "spec": "华硕 / 中型机箱（中塔机箱） / EATX, ATX, MATX, ITX /  PA602 限定版",
+      "price": 1939
+    },
+    {
+      "category": "cooler",
+      "name": "爱国者 星璨 岫 白 ",
+      "spec": "M-ATX（紧凑型），MINI-ITX（迷你型） / 爱国者（aigo） / 爱国者星璨 岫 黑色 / 小型机箱",
+      "price": 369
+    },
+    {
+      "category": "cooler",
+      "name": "先马 易大师S1 雪装版 白 ",
+      "spec": "M-ATX（紧凑型），MINI-ITX（迷你型） / 先马（SAMA） / 易大师S1 豪华版 雪装 / 小型机箱",
+      "price": 219
+    },
+    {
+      "category": "cooler",
+      "name": "半岛铁盒 白泽360E 黑色海景房",
+      "spec": "M-ATX（紧凑型）、MINI-ITX / 半岛铁盒（PADO） / 白泽360E黑色 / 小型机箱 / 360冷排、240冷排、120冷排 / 0 / SPCC钢材 / ≤42cm / 170mm / 黑色 / 0 / 2个 / USB3.0*1+USB2.0*2 / 9个 / 5-8kg",
+      "price": 179
+    },
+    {
+      "category": "cooler",
+      "name": "联力 鬼斧207 白色机箱",
+      "spec": "ATX（标准型）、M-ATX（紧凑型） / LIANLI / 207 / 中型机箱（中塔机箱） / 360冷排、280冷排、240冷排 / 支持 / 0 / 钢化玻璃、钢 / ≤37cm / 180mm / 白色 / 4个 / 8个",
+      "price": 449
+    },
+    {
+      "category": "cooler",
+      "name": "联力 鬼斧207 黑色机箱",
+      "spec": "ATX（标准型）、M-ATX（紧凑型） / LIANLI / 207 / 中型机箱（中塔机箱） / 360冷排、280冷排、240冷排 / 支持 / 0 / 铝、钢化玻璃、SECC钢材 / ≤37cm / 180mm / 207黑色 / 4个 / 8个",
+      "price": 379
+    },
+    {
+      "category": "cooler",
+      "name": "联力 包豪斯O11D EVO 全视版 黑色标准版",
+      "spec": "E-ATX（加强型）, M-ATX / LIANLI / O11D EVO包豪斯全视版机箱-黑 / 大型机箱（全塔机箱） / 360冷排、280冷排、240冷排 / 1 / 0 / 钢化玻璃、钢、铝、SPCC钢材、SECC钢材 / ≤42cm / 167mm / 黑色 / 0 / 13个 / USB3.0*2、USB3.1 Type-C*1、LED灯光按键、重启键、电源键 / 10个",
+      "price": 649
+    },
+    {
+      "category": "cooler",
+      "name": "联力 包豪斯O11D EVO RGB 黑色海景房",
+      "spec": "E-ATX（加强型）、ATX / LIANLI / O11D EVO RGB包豪斯机箱-黑 / 大型机箱（全塔机箱） / 420冷排、360冷排、280冷排、240冷排 / 1个 / 0 / 钢、钢化玻璃、铝 / ≤44cm / 167mm / 黑色 / 0 / 8个 / USB3.0*2、Type-C*1 / 10个 / 支持RGB光控",
+      "price": 999
+    },
+    {
+      "category": "cooler",
+      "name": "联力 包豪斯O11D EVO RGB 白色海景房",
+      "spec": "E-ATX（加强型）、ATX / LIANLI / O11D EVO RGB包豪斯机箱-白 / 大型机箱（全塔机箱） / 420冷排、360冷排、280冷排、240冷排 / 1 / 0 / 钢、钢化玻璃、铝 / ≤44cm / 167mm / 白色 / 0 / 8个 / USB3.0*2、Type-C*1 / 10个 / 支持RGB光控",
+      "price": 949
+    },
+    {
+      "category": "cooler",
+      "name": "联力 包豪斯O11D EVO 全视版 白色标准版",
+      "spec": "E-ATX（加强型）、M-ATX（紧凑型） / LIANLI / O11D EVO包豪斯全视版机箱-白 / 大型机箱（全塔机箱） / 360冷排、280冷排、240冷排 / 1 / 0 / 钢化玻璃 钢 铝 SPCC钢材 SECC钢材 / ≤42cm / 167mm / 白色 / 0 / 13个 / USB3.0*2、USB3.1 Type-C*1、LED灯光按键、重启键、电源键 / 10个",
+      "price": 599
+    },
+    {
+      "category": "cooler",
+      "name": "航嘉 S900 沙尘暴 无立柱 海景房 白",
+      "spec": "M-ATX（紧凑型） MINI-ITX / 航嘉(Huntkey) / 航嘉S920暴风雪 / 中型机箱（中塔机箱） / 240冷排 / 其他 / 不支持Type-C接口 / 0 / 钢化玻璃 钢 / ≤37cm / 155mm / 白色 / 0 / 2个 / USB2.0*2 3.0*1 / 9个 / 5-8kg / 不支持RGB光控",
+      "price": 109
+    },
+    {
+      "category": "cooler",
+      "name": "航嘉 S900 沙尘暴 无立柱 海景房 黑",
+      "spec": "M-ATX（紧凑型）、MINI-ITX / 航嘉（Huntkey） / 航嘉S920暴风雪 / 中型机箱（中塔机箱） / 240冷排 / 其他 / 不支持Type-C接口 / 0 / 钢化玻璃 钢 / ≤37cm / 155mm / 黑色 / 0 / 2个 / USB2.0*2 3.0*1 / 9个 / 5-8kg / 不支持RGB光控",
+      "price": 99
+    },
+    {
+      "category": "cooler",
+      "name": "半岛铁盒 风度4 白色 台式电脑桌面小机箱",
+      "spec": "M-ATX（紧凑型）、MINI-ITX / 半岛铁盒 (PADO) / 半岛风度4白色 / 小型机箱 / 240冷排、120冷排 / 0 / SPCC钢材 / ≤30cm / 180mm / 白色 / 0 / 2个 / USB3.0*1+USB2.0*1 / 7个 / <5kg",
+      "price": 119
+    },
+    {
+      "category": "cooler",
+      "name": "半岛铁盒 风度4 黑色 台式电脑桌面小机箱",
+      "spec": "M-ATX（紧凑型）、MINI-ITX / 半岛铁盒（PADO） / 半岛风度4黑色 / 小型机箱 / 240冷排、120冷排 / 0 / SPCC钢材 / ≤30cm / 180mm / 黑色 / 0 / 2个 / USB3.0*1+USB2.0*1 / 7个 / <5kg",
+      "price": 109
+    }
   ]
 }
