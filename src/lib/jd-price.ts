@@ -34,13 +34,13 @@ function sign(params: Record<string, string>): string {
     .toUpperCase();
 }
 
-/** Search JD goods by keyword, return best match */
-async function searchJD(keyword: string): Promise<JDGoods | null> {
+/** Search JD goods by keyword, return all valid matches */
+async function searchJD(keyword: string): Promise<JDGoods[]> {
   const paramJson = JSON.stringify({
     goodsReqDTO: {
       keyword,
       pageIndex: 1,
-      pageSize: 3,
+      pageSize: 5,
       sortName: "inOrderCount30Days",
       sort: "desc",
     },
@@ -67,28 +67,27 @@ async function searchJD(keyword: string): Promise<JDGoods | null> {
 
   if (data.error_response) {
     console.error("JD API error:", data.error_response);
-    return null;
+    return [];
   }
 
   const resultStr = data?.jd_union_open_goods_query_response?.result;
-  if (!resultStr) return null;
+  if (!resultStr) return [];
   const parsed = JSON.parse(resultStr);
-  const goodsList = parsed?.data || [];
-  if (!goodsList.length) return null;
+  const goodsList: any[] = parsed?.data || [];
+  if (!goodsList.length) return [];
 
-  const best = goodsList[0];
-  return {
+  return goodsList.map((best: any) => ({
     skuId: best.skuId,
     skuName: best.skuName || "",
     price: best.priceInfo?.lowestCouponPrice || best.priceInfo?.price || 0,
     priceOrig: best.priceInfo?.price || 0,
-    materialUrl: best.materialUrl || best.commissionInfo?.couponLink || "",
+    materialUrl: best.materialUrl || "",
     imageUrl: best.imageInfo?.imageList?.[0]?.url || "",
     shopName: best.shopInfo?.shopName || "",
     inOrderCount30Days: best.inOrderCount30Days || 0,
     comments: best.comments || 0,
     goodCommentsShare: best.goodCommentsShare || 0,
-  };
+  }));
 }
 
 // Simple in-memory cache (5 min TTL)
@@ -99,7 +98,7 @@ const cache = new Map<
 const TTL = 5 * 60 * 1000;
 
 /** Extract clean search keyword for JD API */
-function extractSearchKeyword(name: string, spec: string): string {
+function extractSearchKeyword(name: string, category: string, spec: string): string {
   // Remove noise: brackets, CL timing, RPM speeds etc
   let cleaned = (name + " " + spec)
     .replace(/[\(\)（）]/g, " ")
@@ -110,13 +109,38 @@ function extractSearchKeyword(name: string, spec: string): string {
     .replace(/\s+/g, " ")
     .trim();
 
-  // Take first 30 chars (brand + key specs)
-  return cleaned.slice(0, 30);
+  // Take first 30 chars + category suffix for precision
+  return cleaned.slice(0, 30) + (CATEGORY_SUFFIX[category] || "");
 }
+
+/** Category-specific search suffixes for precision */
+const CATEGORY_SUFFIX: Record<string, string> = {
+  cpu: " CPU处理器",
+  motherboard: " 主板",
+  gpu: " 显卡",
+  ram: " 内存条",
+  storage: " 固态硬盘",
+  psu: " 电源",
+  case: " 机箱",
+  cooler: " 散热器",
+};
+
+/** Price sanity ranges per category — reject obvious mismatches */
+const PRICE_RANGES: Record<string, [number, number]> = {
+  cpu: [300, 8000],
+  motherboard: [300, 5000],
+  gpu: [600, 20000],
+  ram: [100, 4000],
+  storage: [100, 5000],
+  psu: [100, 2500],
+  case: [50, 2000],
+  cooler: [30, 1500],
+};
 
 /** Get JD price for a part, cached 5 minutes */
 export async function getJDPrice(
   partName: string,
+  category: string,
   partSpec?: string
 ): Promise<{ price: number; priceOrig: number; shopLink: string } | null> {
   if (!APP_KEY || !APP_SECRET) {
@@ -124,7 +148,7 @@ export async function getJDPrice(
     return null;
   }
 
-  const keyword = extractSearchKeyword(partName, partSpec || "");
+  const keyword = extractSearchKeyword(partName, category, partSpec || "");
 
   const cacheKey = keyword.toLowerCase().trim();
   const cached = cache.get(cacheKey);
@@ -136,14 +160,39 @@ export async function getJDPrice(
     };
   }
 
-  const goods = await searchJD(keyword);
-  if (!goods) return null;
+  const goodsList = await searchJD(keyword);
+  if (!goodsList.length) return null;
 
-  cache.set(cacheKey, { goods, ts: Date.now() });
+  // Filter by price sanity AND capacity match for storage/ram
+  const range = PRICE_RANGES[category] || [0, Infinity];
+  let valid = goodsList.filter(
+    (g) => g.price >= range[0] && g.price <= range[1]
+  );
+
+  // For storage: prefer results whose name contains the same capacity keyword
+  if (category === "storage" && valid.length > 1) {
+    const capMatch = keyword.match(/\b(\d+)(tb|gb)\b/i);
+    if (capMatch) {
+      const capStr = capMatch[0].toLowerCase();
+      const exactCap = valid.filter((g) =>
+        g.skuName.toLowerCase().includes(capStr)
+      );
+      if (exactCap.length > 0) valid = exactCap;
+    }
+  }
+
+  // Pick best: prefer the one with most sales among valid results
+  const best = valid.length > 0 ? valid[0] : null;
+  if (!best) {
+    console.log(`JD: no valid result for "${keyword}" in range ¥${range[0]}-${range[1]}, got:`, goodsList.map(g => g.skuName.slice(0,30) + ' ¥' + g.price));
+    return null;
+  }
+
+  cache.set(cacheKey, { goods: best, ts: Date.now() });
   return {
-    price: goods.price,
-    priceOrig: goods.priceOrig,
-    shopLink: goods.materialUrl,
+    price: best.price,
+    priceOrig: best.priceOrig,
+    shopLink: best.materialUrl,
   };
 }
 
@@ -158,7 +207,7 @@ export async function lookupConfigPrices(
   const updated = { ...config };
 
   for (const [key, part] of Object.entries(config)) {
-    const jd = await getJDPrice(part.name, (part as { spec?: string }).spec);
+    const jd = await getJDPrice(part.name, key, (part as { spec?: string }).spec);
     if (jd && jd.price > 0) {
       const oldPrice = part.price;
       updated[key] = {
