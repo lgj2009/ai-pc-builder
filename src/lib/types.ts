@@ -2,8 +2,10 @@ export interface PartInfo {
   name: string;
   spec: string;
   price: number;
+  priceOrig?: number;   // 京东原价
   shopLink: string;
   notes: string;
+  source?: "sku" | "consensus" | "keyword" | "ai";  // 价格来源
 }
 
 export interface PCConfig {

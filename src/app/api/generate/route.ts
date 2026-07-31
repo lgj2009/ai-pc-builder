@@ -1,145 +1,132 @@
-import { generatePCConfig } from "@/lib/deepseek";
+// ============================================================
+// POST /api/generate — SSE 流式生成配置单
+// 流程：AI 出配置 → 京东查价 → 返回
+// ============================================================
+
+import { generateConfig } from "@/lib/ai";
+import { getJDPrice } from "@/lib/jd";
 import {
   ensureDevice,
   checkSubscription,
   decrementFreeUses,
 } from "@/lib/subscription";
 import { getRedis } from "@/lib/redis";
-import { applyFallbackPrices } from "@/lib/price-matcher";
-import { searchJDCandidates } from "@/lib/jd-price";
 import type { GenerateRequest } from "@/lib/types";
 
-const RATE_LIMIT_WINDOW = 30;
-const MAX_REQUESTS_PER_WINDOW = 3;
+const FREE_LIMIT = 3;
+const RATE_LIMIT_WINDOW = 30; // 秒
+const RATE_LIMIT_MAX = 5; // 每窗口最多 5 次
+
+const CATEGORIES = [
+  "cpu", "motherboard", "gpu", "ram",
+  "storage", "psu", "case", "cooler",
+] as const;
+
+function send(controller: ReadableStreamDefaultController, event: string, data: unknown) {
+  controller.enqueue(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`);
+}
 
 export async function POST(request: Request) {
-  const anonUserId = request.headers.get("x-anon-user-id");
-  if (!anonUserId) {
-    return Response.json(
-      { error: "UNAUTHORIZED", message: "无法识别设备" },
-      { status: 401 }
-    );
-  }
+  const anonUserId = request.headers.get("x-anon-user-id") || "unknown";
 
-  // Rate limiting via Redis
+  // 限流
   try {
     const redis = getRedis();
-    const rateKey = `rate:${anonUserId}`;
-    const current = await redis.incr(rateKey);
-    if (current === 1) {
-      await redis.expire(rateKey, RATE_LIMIT_WINDOW);
-    }
-    if (current > MAX_REQUESTS_PER_WINDOW) {
-      return Response.json(
-        {
-          error: "RATE_LIMITED",
-          message: `请求太频繁，请${RATE_LIMIT_WINDOW}秒后重试`,
-        },
-        { status: 429 }
+    const key = `ratelimit:generate:${anonUserId}`;
+    const count = await redis.incr(key);
+    if (count === 1) await redis.expire(key, RATE_LIMIT_WINDOW);
+    if (count > RATE_LIMIT_MAX) {
+      return new Response(
+        JSON.stringify({ error: "请求太频繁，请稍后再试" }),
+        { status: 429, headers: { "Content-Type": "application/json" } }
       );
     }
   } catch {
-    console.warn("[generate] Redis unavailable, skipping rate limit");
+    // Redis 不可用，跳过限流
   }
 
-  // Parse request body
-  let body: GenerateRequest;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json(
-      { error: "INVALID_REQUEST", message: "请求格式错误" },
-      { status: 400 }
-    );
-  }
-
-  if (!body.budget || body.budget < 3000 || body.budget > 50000) {
-    return Response.json(
-      { error: "INVALID_BUDGET", message: "预算范围 3000-50000 元" },
-      { status: 400 }
-    );
-  }
-
-  // Check subscription
+  // 订阅检查
   const device = await ensureDevice(anonUserId);
-  const status = checkSubscription(device);
+  const status = await checkSubscription(device);
 
-  // Stream response as SSE
-  const encoder = new TextEncoder();
+  if (!status.canAccessFull && status.freeUsesRemaining <= 0) {
+    return new Response(
+      JSON.stringify({
+        error: "免费次数已用完",
+        canAccessFull: false,
+        freeUsesRemaining: 0,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
+  }
+
+  const body: GenerateRequest = await request.json();
+
   const stream = new ReadableStream({
     async start(controller) {
-      const send = (event: string, data: unknown) => {
-        controller.enqueue(
-          encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`)
-        );
-      };
-
       try {
-        send("status", { phase: "generating", message: "正在分析需求..." });
+        // Phase 1: AI 生成配置
+        send(controller, "status", { phase: "generating", message: "AI 正在分析需求..." });
+        const result = await generateConfig(body);
 
-        const result = await generatePCConfig(body);
+        // Phase 2: 京东查价（8 个配件并发）
+        send(controller, "status", { phase: "pricing", message: "京东比价中..." });
+        const jdResults = await Promise.all(
+          CATEGORIES.map(async (cat) => {
+            const part = result.config[cat];
+            if (!part) return { cat, found: false };
+            const jd = await getJDPrice(part.name, cat);
+            return { cat, part, jd };
+          })
+        );
 
-        // Apply JD prices: search each part, replace price + link
-        send("status", { phase: "pricing", message: "京东比价中..." });
-        if (process.env.JD_APP_KEY) {
-          const cats = ["cpu", "motherboard", "gpu", "ram", "storage", "psu", "case", "cooler"];
-          let replaced = 0; let skuHits = 0;
-          for (const cat of cats) {
-            const part = result.config[cat as keyof typeof result.config];
-            if (!part) continue;
-            const candidates = await searchJDCandidates(part.name, cat, 3);
-            if (candidates.length > 0) {
-              const best = candidates[0];
-              part.price = best.price;
-              part.shopLink = best.shopLink;
-              if (best.source === "sku") skuHits++;
-              replaced++;
-            }
+        // 应用京东价
+        let calibrated = 0;
+        let skuHits = 0;
+        let consensusHits = 0;
+        for (const { cat, part, jd } of jdResults) {
+          if (jd && part) {
+            part.price = jd.price;
+            part.shopLink = jd.shopLink;
+            part.source = jd.source as PartInfo["source"];
+            calibrated++;
+            if (jd.source === "sku") skuHits++;
+            else if (jd.source === "consensus") consensusHits++;
           }
-          result.totalPrice = Object.values(result.config).reduce((s, p) => s + (p.price || 0), 0);
-          // If JD failed (< 3 items calibrated), fall back to local DB
-          if (replaced < 3) {
-            const fb = applyFallbackPrices(result.config);
-            result.config = fb.config;
-            result.totalPrice = Object.values(result.config).reduce((s, p) => s + (p.price || 0), 0);
-            send("status", { phase: "pricing", message: `京东异常，使用本地库校准 ${fb.corrections.length} 项` });
-          } else {
-            send("status", { phase: "pricing", message: `京东校准 ${replaced}/8 项 (${skuHits} SKU精确 + ${replaced - skuHits} 搜索)` });
-          }
-        } else {
-          const fb = applyFallbackPrices(result.config);
-          result.config = fb.config;
-          result.totalPrice = Object.values(result.config).reduce((s, p) => s + (p.price || 0), 0);
-          send("status", { phase: "pricing", message: `本地库校准 ${fb.corrections.length} 项` });
         }
 
-        send("status", { phase: "done", message: "配置单生成完成" });
+        result.totalPrice = Object.values(result.config).reduce(
+          (s, p) => s + (p.price || 0), 0
+        );
 
-        // Decrement free uses only for non-subscribed users
+        send(controller, "status", {
+          phase: "pricing",
+          message: `京东校准 ${calibrated}/8 (${skuHits} SKU + ${consensusHits} 共识)`,
+        });
+
+        // Phase 3: 完成
+        send(controller, "status", { phase: "done", message: "配置单生成完成" });
+
         if (!status.isSubscribed) {
-          await decrementFreeUses(anonUserId);
+          await decrementFreeUses(device.id);
         }
-
-        const showPrices = status.canAccessFull;
 
         const response = {
           config: result.config,
-          totalPrice: showPrices ? result.totalPrice : null,
+          totalPrice: status.canAccessFull ? result.totalPrice : null,
           compatibilityNotes: result.compatibilityNotes,
-          canAccessFull: showPrices,
+          canAccessFull: status.canAccessFull,
           freeUsesRemaining: status.isSubscribed
             ? null
             : Math.max(0, status.freeUsesRemaining - 1),
         };
 
-        send("complete", response);
+        send(controller, "complete", response);
         controller.close();
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : "未知错误";
-        console.error("[generate] Error:", message);
-        send("error", {
-          message: "生成失败，请稍后重试",
-          detail: message,
+      } catch (error) {
+        console.error("[generate]", error);
+        send(controller, "error", {
+          message: error instanceof Error ? error.message : "生成失败",
         });
         controller.close();
       }
@@ -154,3 +141,6 @@ export async function POST(request: Request) {
     },
   });
 }
+
+// 导入 PartInfo 用于类型标注
+import type { PartInfo } from "@/lib/types";
